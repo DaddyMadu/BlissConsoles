@@ -43,6 +43,7 @@ Function preinstallation {
   }
   winget-install
   Start-Sleep -Second 3
+  winget install -e --accept-source-agreements --accept-package-agreements Microsoft.WindowsTerminal
   winget install -e --accept-source-agreements --accept-package-agreements Microsoft.PowerShell
   winget install -e --accept-source-agreements --accept-package-agreements JanDeDobbeleer.OhMyPosh
   winget install -e --accept-source-agreements --accept-package-agreements chrisant996.Clink
@@ -101,6 +102,15 @@ Function updatepsprofiles {
                  Invoke-RestMethod 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/clink/oh-my-posh.lua' -OutFile (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua')
             }
      }
+  if (!(Test-Path -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState'))) {
+                New-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState') -ItemType "directory"
+                }
+            elseif (!(Test-Path -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settingsbk.json') -PathType Leaf)) {
+                 Get-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json') | Move-Item -Destination ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settingsbk.json') -Force
+                 Invoke-RestMethod 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/settings.json' -OutFile ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json')
+            } else {
+                 Invoke-RestMethod 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/settings.json' -OutFile ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json')
+              }
 	Start-Sleep -Second 3
 }
 
