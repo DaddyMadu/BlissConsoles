@@ -81,25 +81,25 @@ Function updatepsprofiles {
                 }
             elseif (!(Test-Path -Path ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -PathType Leaf)) {
                  Get-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -Force
-                 Invoke-RestMethod 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/WindowsPowerShell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
+                 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/WindowsPowerShell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
             } else {
-                 Invoke-RestMethod 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/WindowsPowerShell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
+                 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/WindowsPowerShell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
               }
    if (!(Test-Path -Path ($env:DOCUMENTS + '\Powershell'))) {
                 New-Item -Path ($env:DOCUMENTS + '\Powershell') -ItemType "directory"
                 }
             elseif (!(Test-Path -Path ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -PathType Leaf)) {
                  Get-Item -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -Force
-                 Invoke-RestMethod 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
+                 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
             } else {
-                 Invoke-RestMethod 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
+                 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
               }
    if (!(Test-Path -Path (${env:ProgramFiles(x86)} + '\clink'))) {
-                 Invoke-RestMethod 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/clink/oh-my-posh.lua' -OutFile (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua')
+                 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/clink/oh-my-posh.lua' -OutFile (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua')
             } else {
 	    if (!(Test-Path -Path (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua') -PathType Leaf)) {
                  Get-Item -Path (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua') | Move-Item -Destination (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.bk') -Force
-                 Invoke-RestMethod 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/clink/oh-my-posh.lua' -OutFile (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua')
+                 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/clink/oh-my-posh.lua' -OutFile (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua')
             }
      }
   if (!(Test-Path -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState'))) {
@@ -107,9 +107,9 @@ Function updatepsprofiles {
                 }
             elseif (!(Test-Path -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settingsbk.json') -PathType Leaf)) {
                  Get-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json') | Move-Item -Destination ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settingsbk.json') -Force
-                 Invoke-RestMethod 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/settings.json' -OutFile ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json')
+                 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/settings.json' -OutFile ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json')
             } else {
-                 Invoke-RestMethod 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/settings.json' -OutFile ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json')
+                 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/settings.json' -OutFile ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json')
               }
 	Start-Sleep -Second 3
 }
