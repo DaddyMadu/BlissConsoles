@@ -133,10 +133,6 @@ Write-host "Wraping thing up..."
     		Set-ItemProperty -Path $_.PsPath -Name "FaceName" -Type String -Value 'CaskaydiaCove NFM' -Force
       		Set-ItemProperty -Path $_.PsPath -Name "WindowAlpha" -Type DWord -Value 0x000000e8 -Force
 	}
-    Add-Type -AssemblyName System.Windows.Forms
-    [System.Windows.Forms.SendKeys]::SendWait(". $")
-    [System.Windows.Forms.SendKeys]::SendWait("PROFILE")
-    [System.Windows.Forms.SendKeys]::SendWait("{ENTER}")
 }
 
 
