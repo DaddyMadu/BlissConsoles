@@ -42,6 +42,7 @@ Function preinstallation {
     Install-Script -Name winget-install -Confirm:$False -Force
   }
   winget-install
+  winget-install -CheckForUpdate
   Start-Sleep -Second 3
   winget install -e --accept-source-agreements --accept-package-agreements Microsoft.WindowsTerminal
   winget install -e --accept-source-agreements --accept-package-agreements Microsoft.PowerShell
