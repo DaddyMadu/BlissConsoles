@@ -107,11 +107,22 @@ Function updatepsprofiles {
 #finishing script and reloading profile
 Function Finished {
 Write-host "Wraping thing up..."
-    #Set-ItemProperty -Path "HKCU:\MMM" -Name "MMM" -Type DWord -Value 11
-    $PSConsoleKeysPaths = Get-ChildItem -path 'HKCU:\Console' -Recurse | where { $_.Name -like '*powershell*' } | Select Name | ForEach-Object {$_.Name}
-    foreach ($PSCKeyPath in $PSConsoleKeysPaths) {
-	Set-ItemProperty -Path '$PSCKeyPath' -Name "MMM" -Type DWord -Value 11 -whatif
-    }
+    Get-ChildItem -Path "HKCU:\Console" -Exclude "%%Startup*","*pwsh*" | ForEach {
+  		Set-ItemProperty -Path $_.PsPath -Name "ColorTable05" -Type DWord -Value 0x00562401 -Force
+  		Set-ItemProperty -Path $_.PsPath -Name "ColorTable06" -Type DWord -Value 0x00f0edee -Force
+    		Set-ItemProperty -Path $_.PsPath -Name "FontFamily" -Type DWord -Value 0x00000036 -Force
+      		Set-ItemProperty -Path $_.PsPath -Name "FontWeight" -Type DWord -Value 0x00000190 -Force
+		Set-ItemProperty -Path $_.PsPath -Name "ScreenColors" -Type DWord -Value 0x00000056 -Force
+  		Set-ItemProperty -Path $_.PsPath -Name "PopupColors" -Type DWord -Value 0x000000f3 -Force
+    		Set-ItemProperty -Path $_.PsPath -Name "FaceName" -Type String -Value 'CaskaydiaCove NFM' -Force
+	}
+  Get-ChildItem -Path "HKCU:\Console" -Exclude "%%Startup*","*WindowsPowerShell*" | ForEach {
+		Set-ItemProperty -Path $_.PsPath -Name "ColorTable00" -Type DWord -Value 0x00342b27 -Force
+    		Set-ItemProperty -Path $_.PsPath -Name "FontFamily" -Type DWord -Value 0x00000036 -Force
+      		Set-ItemProperty -Path $_.PsPath -Name "FontWeight" -Type DWord -Value 0x00000190 -Force
+    		Set-ItemProperty -Path $_.PsPath -Name "FaceName" -Type String -Value 'CaskaydiaCove NFM' -Force
+      		Set-ItemProperty -Path $_.PsPath -Name "WindowAlpha" -Type DWord -Value 0x000000e8 -Force
+	}
     Add-Type -AssemblyName System.Windows.Forms
     [System.Windows.Forms.SendKeys]::SendWait(". $")
     [System.Windows.Forms.SendKeys]::SendWait("PROFILE")
