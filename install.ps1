@@ -6,7 +6,7 @@ $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
 $env:DOCUMENTS = [Environment]::GetFolderPath([Environment+SpecialFolder]::MyDocuments)
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing")
 $fontFamilies = (New-Object System.Drawing.Text.InstalledFontCollection).Families
-New-PSDrive -Name HKCU -PSProvider Registry -Root HKEY_CURRENT_USER | Out-Null
+New-PSDrive -Name HKCU -PSProvider Registry -Root HKEY_CURRENT_USER -ErrorAction SilentlyContinue
 cls
 $installationsteps = @(
 	### Require administrator privileges ###
