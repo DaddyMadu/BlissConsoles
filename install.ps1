@@ -95,6 +95,7 @@ Function preinstallation {
 	}
  #updating modules to latest versions
  Set-PSRepository PSGallery -InstallationPolicy Trusted -Force >$null
+ Get-InstalledModule | Update-Module
 }
 #installing required fonts
 Function installfonts {
