@@ -94,7 +94,7 @@ Function preinstallation {
   	Install-Module -Name PSReadLine -Repository PSGallery -Force
 	}
  #updating modules to latest versions
- Set-PSRepository PSGallery -InstallationPolicy Trusted -Force >$null
+ Set-PSRepository PSGallery -InstallationPolicy Trusted -Confirm:$False -Force 
  Get-InstalledModule | Update-Module
 }
 #installing required fonts
