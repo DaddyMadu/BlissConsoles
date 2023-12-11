@@ -158,6 +158,7 @@ Function update-bliss {
   if($CurrentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator))
   {
        Write-host "Script is running with Administrator privileges!, installing BlissConsoles..."
+       irm "https://github.com/DaddyMadu/BlissConsoles/raw/main/install.ps1" | iex
   }
   else
     {
