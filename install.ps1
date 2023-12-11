@@ -103,8 +103,8 @@ if ($fontFamilies -notcontains "CaskaydiaCove NFM") {
     Remove-Item -Path ".\CascadiaCode.zip" -Force -ErrorAction SilentlyContinue
     } else {
     Write-Output "Font found, skipping download..."
+	}
 }
-
 #update consoles profiles
 Function updatepsprofiles {
   Write-Output "Updating powershell profiles..."
