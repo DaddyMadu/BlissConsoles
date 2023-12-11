@@ -11,7 +11,8 @@ Function RequireAdmin {
   }
   else
     {
-Start-Process Powershell -Argumentlist '-ExecutionPolicy Bypass -NoProfile -command "irm "https://github.com/DaddyMadu/BlissConsoles/raw/main/install.ps1" | iex"' -Verb RunAs; 
+Start-Process Powershell -Argumentlist '-ExecutionPolicy Bypass -NoProfile -command "irm "https://github.com/DaddyMadu/BlissConsoles/raw/main/install.ps1" | iex"' -Verb RunAs
+Exit
     }
 }
 RequireAdmin
