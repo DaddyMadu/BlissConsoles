@@ -402,6 +402,6 @@ function prompt {
     return prompt;
   }
   $global:ompjob = Start-Job {Import-Module -Name Terminal-Icons; oh-my-posh --init --shell powershell --config $env:POSH_THEMES_PATH/kushal.omp.json};
-  Write-Host "Loading Profile in Background..."
+  Write-Host "BS v1.3 Loading Profile in Background..."
   return " ";
 }
