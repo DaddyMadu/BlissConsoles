@@ -16,6 +16,7 @@ Exit
     }
 }
 RequireAdmin
+cls
 $host.ui.RawUI.WindowTitle = "BlissConsoles installer"
 cmd /c 'title [BlissConsoles installer]'
 Write-Host 'Welcome to BlissConsoles installer';
