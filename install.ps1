@@ -5,7 +5,6 @@ Write-Host 'Welcome to BlissConsoles installer';
 Set-ExecutionPolicy RemoteSigned -Force
 $env:DOCUMENTS = [Environment]::GetFolderPath([Environment+SpecialFolder]::MyDocuments)
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing")
-$fontFamilies = (New-Object System.Drawing.Text.InstalledFontCollection).Families
 $errpref = $ErrorActionPreference #save actual preference
 $ErrorActionPreference = "silentlycontinue"
 New-PSDrive -Name HKCU -PSProvider Registry -Root HKEY_CURRENT_USER -ErrorAction SilentlyContinue
@@ -83,11 +82,11 @@ Function preinstallation {
 
 #installing required fonts
 Function installfonts {
+$fontFamilies = (New-Object System.Drawing.Text.InstalledFontCollection).Families
 Write-Output "Installing required fonts..."
 # Check if CaskaydiaCove NF is installed #Christitus script
-if ($fontFamilies -notcontains "CaskaydiaCove NF") {
-    
-    # Download and install CaskaydiaCove NF
+if ($fontFamilies -notcontains "CaskaydiaCove NFM") {
+    # Download and install CaskaydiaCove NFM
     $webClient = New-Object System.Net.WebClient
     $webClient.DownloadFile("https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/CascadiaCode.zip", ".\CascadiaCode.zip")
 
@@ -102,7 +101,8 @@ if ($fontFamilies -notcontains "CaskaydiaCove NF") {
     # Clean up
     Remove-Item -Path ".\CascadiaCode" -Recurse -Force -ErrorAction SilentlyContinue
     Remove-Item -Path ".\CascadiaCode.zip" -Force -ErrorAction SilentlyContinue
-    }
+    } else {
+    Write-Output "Font found, skipping download..."
 }
 
 #update consoles profiles
