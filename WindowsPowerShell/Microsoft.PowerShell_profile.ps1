@@ -152,7 +152,38 @@ Set-Alias -Name nano -Value $EDITOR
 
 
 function ll { Get-ChildItem -Path $pwd -File }
-
+Function update-bliss {
+ $CurrentUser = New-Object Security.Principal.WindowsPrincipal $([Security.Principal.WindowsIdentity]::GetCurrent())
+  if($CurrentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator))
+  {
+       Write-host "Script is running with Administrator privileges!, installing BlissConsoles..."
+  }
+  else
+    {
+Start-Process Powershell -Argumentlist '-ExecutionPolicy RemoteSigned -NoProfile -command "irm "https://github.com/DaddyMadu/BlissConsoles/raw/main/install.ps1" | iex"' -Verb RunAs
+Exit
+    }
+}
+Function disable-psupdates {
+ New-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\donotupdate.txt') -ItemType File -Force
+ New-Item -Path ($env:DOCUMENTS + '\Powershell\donotupdate.txt') -ItemType File -Force	
+}
+Function enable-psupdates {
+ Remove-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\donotupdate.txt') -ItemType File -Force
+ Remove-Item -Path ($env:DOCUMENTS + '\Powershell\donotupdate.txt') -ItemType File -Force	
+}
+Function disable-clinkupdate {
+ New-Item -Path (${env:ProgramFiles(x86)} + '\clink\donotupdate.txt') -ItemType File -Force
+}
+Function enable-clinkupdate {
+ Remove-Item -Path (${env:ProgramFiles(x86)} + '\clink\donotupdate.txt') -ItemType File -Force
+}
+Function disable-terminalupdate {
+ New-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\donotupdate.txt') -ItemType File -Force
+}
+Function enable-terminalupdate {
+ Remove-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\donotupdate.txt') -ItemType File -Force
+}
 Function Get-PubIP {
  (Invoke-WebRequest http://ifconfig.me/ip ).Content
 }
