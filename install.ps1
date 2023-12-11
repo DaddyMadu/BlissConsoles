@@ -11,21 +11,7 @@ Function RequireAdmin {
   }
   else
     {
-       #Create a new Elevated process to Start PowerShell
-       $ElevatedProcess = New-Object System.Diagnostics.ProcessStartInfo "PowerShell";
- 
-       # Specify the current script path and name as a parameter
-       $ElevatedProcess.Arguments = "& '" + $script:MyInvocation.MyCommand.Path + "'"
- 
-       #Set the Process to elevated
-       $ElevatedProcess.Verb = "runas"
- 
-       #Start the new elevated process
-       [System.Diagnostics.Process]::Start($ElevatedProcess)
- 
-       #Exit from the current, unelevated, process
-       Exit
- 
+Start-Process Powershell -Argumentlist '-ExecutionPolicy Bypass -NoProfile -command "irm "https://github.com/DaddyMadu/BlissConsoles/raw/main/install.ps1" | iex"' -Verb RunAs; 
     }
 }
 RequireAdmin
@@ -39,7 +25,6 @@ $errpref = $ErrorActionPreference #save actual preference
 $ErrorActionPreference = "silentlycontinue"
 New-PSDrive -Name HKCU -PSProvider Registry -Root HKEY_CURRENT_USER -ErrorAction SilentlyContinue >$null
 $ErrorActionPreference = $errpref #restore previous preference
-cls
 $installationsteps = @(
 	"CreateRestorePoint",
  	"installfonts",
