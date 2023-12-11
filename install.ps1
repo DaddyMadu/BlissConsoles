@@ -102,8 +102,8 @@ Function installfonts {
 $fontFamilies = (New-Object System.Drawing.Text.InstalledFontCollection).Families
 Write-Output "Installing required fonts..."
 # Check if CaskaydiaCove NF is installed #Christitus script
-if ($fontFamilies -notcontains "CaskaydiaCove NFM") {
-    # Download and install CaskaydiaCove NFM
+if ($fontFamilies -notcontains "CaskaydiaCove NF") {
+    # Download and install CaskaydiaCove NF
     $webClient = New-Object System.Net.WebClient
     $webClient.DownloadFile("https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/CascadiaCode.zip", ".\CascadiaCode.zip")
 
