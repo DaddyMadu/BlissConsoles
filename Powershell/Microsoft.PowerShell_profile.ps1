@@ -171,20 +171,20 @@ Function disable-psupdates {
  New-Item -Path ($env:DOCUMENTS + '\Powershell\donotupdate.txt') -ItemType File -Force	
 }
 Function enable-psupdates {
- Remove-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\donotupdate.txt') -ItemType File -Force
- Remove-Item -Path ($env:DOCUMENTS + '\Powershell\donotupdate.txt') -ItemType File -Force	
+ Remove-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\donotupdate.txt') -Force
+ Remove-Item -Path ($env:DOCUMENTS + '\Powershell\donotupdate.txt') -Force	
 }
 Function disable-clinkupdate {
  New-Item -Path (${env:ProgramFiles(x86)} + '\clink\donotupdate.txt') -ItemType File -Force
 }
 Function enable-clinkupdate {
- Remove-Item -Path (${env:ProgramFiles(x86)} + '\clink\donotupdate.txt') -ItemType File -Force
+ Remove-Item -Path (${env:ProgramFiles(x86)} + '\clink\donotupdate.txt') -Force
 }
 Function disable-terminalupdate {
  New-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\donotupdate.txt') -ItemType File -Force
 }
 Function enable-terminalupdate {
- Remove-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\donotupdate.txt') -ItemType File -Force
+ Remove-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\donotupdate.txt') -Force
 }
 Function Get-PubIP {
  (Invoke-WebRequest http://ifconfig.me/ip ).Content
