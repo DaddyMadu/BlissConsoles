@@ -2,7 +2,6 @@ cls
 $host.ui.RawUI.WindowTitle = "BlissConsoles installer"
 cmd /c 'title [BlissConsoles installer]'
 Write-Host 'Welcome to BlissConsoles installer';
-$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
 Set-ExecutionPolicy RemoteSigned -Force
 $env:DOCUMENTS = [Environment]::GetFolderPath([Environment+SpecialFolder]::MyDocuments)
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing")
