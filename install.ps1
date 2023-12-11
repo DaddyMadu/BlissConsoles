@@ -1,25 +1,4 @@
 cls
-$host.ui.RawUI.WindowTitle = "BlissConsoles installer"
-cmd /c 'title [BlissConsoles installer]'
-Write-Host 'Welcome to BlissConsoles installer';
-Set-ExecutionPolicy RemoteSigned -Force
-$env:DOCUMENTS = [Environment]::GetFolderPath([Environment+SpecialFolder]::MyDocuments)
-[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing")
-$errpref = $ErrorActionPreference #save actual preference
-$ErrorActionPreference = "silentlycontinue"
-New-PSDrive -Name HKCU -PSProvider Registry -Root HKEY_CURRENT_USER -ErrorAction SilentlyContinue >$null
-$ErrorActionPreference = $errpref #restore previous preference
-cls
-$installationsteps = @(
-	### Require administrator privileges ###
-	"RequireAdmin",
-	"CreateRestorePoint",
- 	"installfonts",
-  	"preinstallation",
-  	"updatepsprofiles",
-	"Finished"
-)
-
 #check administrator privilage
 Function RequireAdmin {
 	#Get current user context
@@ -49,6 +28,25 @@ Function RequireAdmin {
  
     }
 }
+RequireAdmin
+$host.ui.RawUI.WindowTitle = "BlissConsoles installer"
+cmd /c 'title [BlissConsoles installer]'
+Write-Host 'Welcome to BlissConsoles installer';
+Set-ExecutionPolicy RemoteSigned -Force
+$env:DOCUMENTS = [Environment]::GetFolderPath([Environment+SpecialFolder]::MyDocuments)
+[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing")
+$errpref = $ErrorActionPreference #save actual preference
+$ErrorActionPreference = "silentlycontinue"
+New-PSDrive -Name HKCU -PSProvider Registry -Root HKEY_CURRENT_USER -ErrorAction SilentlyContinue >$null
+$ErrorActionPreference = $errpref #restore previous preference
+cls
+$installationsteps = @(
+	"CreateRestorePoint",
+ 	"installfonts",
+  	"preinstallation",
+  	"updatepsprofiles",
+	"Finished"
+)
 #Create Restore Point
 Function CreateRestorePoint {
   Write-Output "Creating Restore Point incase something bad happens"
