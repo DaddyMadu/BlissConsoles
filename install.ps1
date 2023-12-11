@@ -94,44 +94,8 @@ Function preinstallation {
   if(-not (Get-Module PSReadLine -ListAvailable)){
   	Install-Module -Name PSReadLine -Repository PSGallery -Force
 	}
-}
-
-#updating module if found
-Function updatemodules {
-# Get a list of all installed modules
-$installedModules = Get-InstalledModule
-
-$totalModules = $installedModules.Count
-$currentModule = 0
-
-foreach ($module in $installedModules) {
-    $currentModule++
-    
-    # Get all versions of the module
-    $allVersions = Get-InstalledModule -Name $module.Name -AllVersions
-
-    # If there's more than one version installed
-    if ($allVersions.Count -gt 1) {
-        # Sort by version and select all but the latest version
-        $oldVersions = $allVersions | Sort-Object Version | Select-Object -First ($allVersions.Count - 1)
-
-        # Uninstall old versions
-        foreach ($oldVersion in $oldVersions) {
-            Write-Host "Uninstalling $($oldVersion.Name) version $($oldVersion.Version)..."
-            Uninstall-Module -Name $oldVersion.Name -RequiredVersion $oldVersion.Version -Force
-        }
-    }
-
-    # Install the latest version
-    Write-Host "Installing latest version of $($module.Name)..."
-    Install-Module -Name $module.Name -Force -AllowClobber -SkipPublisherCheck
-
-    # Update progress bar
-    Write-Progress -PercentComplete (($currentModule / $totalModules) * 100) -Status "Processing Modules" -Activity "Processed $currentModule of $totalModules"
-}
-
-Write-Progress -Completed
-Write-Host "Script completed!"
+ #updating modules to latest versions
+ Set-PSRepository PSGallery -InstallationPolicy Trusted -Force >$null
 }
 #installing required fonts
 Function installfonts {
