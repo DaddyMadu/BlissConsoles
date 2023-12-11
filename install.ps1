@@ -18,7 +18,7 @@ RequireAdmin
 $host.ui.RawUI.WindowTitle = "BlissConsoles installer"
 cmd /c 'title [BlissConsoles installer]'
 Write-Host 'Welcome to BlissConsoles installer';
-Set-ExecutionPolicy RemoteSigned -Force
+Set-ExecutionPolicy RemoteSigned -Force >$null
 $env:DOCUMENTS = [Environment]::GetFolderPath([Environment+SpecialFolder]::MyDocuments)
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing")
 $errpref = $ErrorActionPreference #save actual preference
