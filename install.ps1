@@ -11,7 +11,7 @@ Function RequireAdmin {
   }
   else
     {
-Start-Process Powershell -Argumentlist '-ExecutionPolicy Bypass -NoProfile -command "irm "https://github.com/DaddyMadu/BlissConsoles/raw/main/install.ps1" | iex"' -Verb RunAs
+Start-Process Powershell -Argumentlist '-ExecutionPolicy RemoteSigned -NoProfile -command "irm "https://github.com/DaddyMadu/BlissConsoles/raw/main/install.ps1" | iex"' -Verb RunAs
 Exit
     }
 }
@@ -20,7 +20,10 @@ cls
 $host.ui.RawUI.WindowTitle = "BlissConsoles installer"
 cmd /c 'title [BlissConsoles installer]'
 Write-Host 'Welcome to BlissConsoles installer';
-Set-ExecutionPolicy RemoteSigned -Force >$null
+$errpref = $ErrorActionPreference #save actual preference
+$ErrorActionPreference = "silentlycontinue"
+Set-ExecutionPolicy RemoteSigned -Force -ErrorAction SilentlyContinue >$null
+$ErrorActionPreference = $errpref #restore previous preference
 $env:DOCUMENTS = [Environment]::GetFolderPath([Environment+SpecialFolder]::MyDocuments)
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing")
 $errpref = $ErrorActionPreference #save actual preference
