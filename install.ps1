@@ -39,9 +39,6 @@ Function preinstallation {
 	Write-Output "Getting things ready, installing chocolatey, winget, clink ...etc"
 	Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 	choco install chocolatey-core.extension -y
-   If(-not(Get-InstalledScript winget-install -ErrorAction silentlycontinue)){
-    Install-Script -Name winget-install -Confirm:$False -Force
-  }
   if ((Get-PackageProvider -Name "NuGet" -Force).version -lt "2.8.5.208" ) {
     try {
 		Write-Host "Checking if Nuget Package is installed..." (Get-PackageProvider -Name "NuGet").version
@@ -55,6 +52,9 @@ Function preinstallation {
 } else {
     Write-Host "Version of NuGet installed = " (Get-PackageProvider -Name "NuGet").version
 }
+   If(-not(Get-InstalledScript winget-install -ErrorAction silentlycontinue)){
+    Install-Script -Name winget-install -Confirm:$False -Force
+  }
   winget-install
   winget-install -CheckForUpdate
   Start-Sleep -Second 3
