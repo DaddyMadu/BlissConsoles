@@ -127,7 +127,8 @@ if ($fontFamilies -notcontains "CaskaydiaCove NF") {
 #update consoles profiles
 Function updatepsprofiles {
   Write-Output "Updating powershell profiles..."
-  if (!(Test-Path -Path ($env:DOCUMENTS + '\WindowsPowerShell'))) {
+  if (!(Test-Path -Path ($env:DOCUMENTS + '\WindowsPowerShell\donotupdate.txt') -PathType Leaf)) {
+     if (!(Test-Path -Path ($env:DOCUMENTS + '\WindowsPowerShell'))) {
   		Write-Output "Creating powershell 5 profile folder..."
                 New-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell') -ItemType "directory"
                 }
@@ -141,8 +142,12 @@ Function updatepsprofiles {
             } else {
 	    	 Write-Output "Backup profile found, updating active profile to latest one..."
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/WindowsPowerShell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
-              }
-   if (!(Test-Path -Path ($env:DOCUMENTS + '\Powershell'))) {
+              	}
+	      } else {
+	Write-Output "Donotupdate file found in $env:DOCUMENTS\WindowsPowerShell\donotupdate.txt, skipping update powershell 5 profile..."
+       }
+   if (!(Test-Path -Path ($env:DOCUMENTS + '\Powershell\donotupdate.txt') -PathType Leaf)) {
+       if (!(Test-Path -Path ($env:DOCUMENTS + '\Powershell'))) {
    		Write-Output "Creating powershell 7 profile folder..."
                 New-Item -Path ($env:DOCUMENTS + '\Powershell') -ItemType "directory" >$null
                 }
@@ -156,8 +161,12 @@ Function updatepsprofiles {
             } else {
 	    	 Write-Output "Backup profile found, updating active profile to latest one..."
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
-              }
-   if (!(Test-Path -Path (${env:ProgramFiles(x86)} + '\clink'))) {
+              	}
+	      } else {
+	Write-Output "Donotupdate file found in $env:DOCUMENTS\Powershell\donotupdate.txt, skipping update powershell 7 profile..."
+       }
+   if (!(Test-Path -Path (${env:ProgramFiles(x86)} + '\clink\donotupdate.txt') -PathType Leaf)) {
+      if (!(Test-Path -Path (${env:ProgramFiles(x86)} + '\clink'))) {
                  Write-Output "Clink is not installed please rerun the script again..."
 		 break
               }
@@ -168,8 +177,12 @@ Function updatepsprofiles {
                  Get-Item -Path (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua') | Move-Item -Destination (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.bk') -Force -ErrorAction SilentlyContinue >$null
 		 $ErrorActionPreference = $errpref #restore previous preference
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/clink/oh-my-posh.lua' -OutFile (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua')
-            }
-  if (!(Test-Path -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState'))) {
+            	}
+	    } else {
+     Write-Output "Donotupdate file found in ${env:ProgramFiles(x86)}\clink\donotupdate.txt, skipping update clink lua file..."
+     }
+  if (!(Test-Path -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\donotupdate.txt') -PathType Leaf)) {
+     if (!(Test-Path -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState'))) {
   		Write-Output "Creating windows terminal settings folder..."
                 New-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState') -ItemType "directory" >$null
                 }
@@ -183,7 +196,10 @@ Function updatepsprofiles {
             } else {
 	    	 Write-Output "Backup settings file for windows terminal found, updating custom settings file..."
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/settings.json' -OutFile ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json')
-              }
+              	}
+	      } else {
+	Write-Output "Donotupdate file found in $env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\donotupdate.txt, skipping update terminal settings..."
+       }
 	Start-Sleep -Second 3
 }
 
