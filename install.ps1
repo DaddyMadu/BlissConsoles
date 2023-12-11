@@ -140,7 +140,7 @@ Function updatepsprofiles {
 	 	$ErrorActionPreference = $errpref #restore previous preference
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/WindowsPowerShell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
             } else {
-	    	 Write-Output "Backup profile found, updating active profile to latest one..."
+	    	 Write-Output "Backup profile found, updating powershell 5 active profile to latest one..."
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/WindowsPowerShell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
               	}
 	      } else {
@@ -159,7 +159,7 @@ Function updatepsprofiles {
 	  	 $ErrorActionPreference = $errpref #restore previous preference
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
             } else {
-	    	 Write-Output "Backup profile found, updating active profile to latest one..."
+	    	 Write-Output "Backup profile found, updating powershell 7 active profile to latest one..."
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
               	}
 	      } else {
