@@ -6,7 +6,7 @@ $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
 $env:DOCUMENTS = [Environment]::GetFolderPath([Environment+SpecialFolder]::MyDocuments)
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing")
 $fontFamilies = (New-Object System.Drawing.Text.InstalledFontCollection).Families
-New-PSDrive -Name HKCU -PSProvider Registry -Root HKEY_CURRENT_USER -ErrorAction SilentlyContinue
+New-PSDrive -Name HKCU -PSProvider Registry -Root HKEY_CURRENT_USER -ErrorAction SilentlyContinue | Out-Null
 cls
 $installationsteps = @(
 	### Require administrator privileges ###
@@ -55,8 +55,20 @@ Function preinstallation {
    If(-not(Get-InstalledScript winget-install -ErrorAction silentlycontinue)){
     Install-Script -Name winget-install -Confirm:$False -Force
   }
-  winget-install
-  winget-install -CheckForUpdate
+   if ((winget -v) -lt "v1.6.3132" ) {
+    try {
+		Write-Host "Checking if winget is installed..." (winget)
+		Write-Host "Installing winget updates..."
+  		Add-AppxPackage -Path 'https://github.com/microsoft/winget-cli/releases/download/v1.6.3133/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'
+    }
+    catch [Exception]{
+        $_.message 
+        exit
+    }
+} else {
+    Write-Host "Version of winget installed = " (winget -v)
+}
+  winget upgrade winget -e --accept-source-agreements --accept-package-agreements
   Start-Sleep -Second 3
   winget install Microsoft.WindowsTerminal -e --accept-source-agreements --accept-package-agreements
   winget install Microsoft.PowerShell -e --accept-source-agreements --accept-package-agreements
@@ -99,7 +111,7 @@ Function updatepsprofiles {
                 }
             elseif (!(Test-Path -Path ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -PathType Leaf)) {
 	    	Write-Output "Downloading powershell 5 profile and backing up old one if avaliable..."
-      		 Get-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -Force -ErrorAction SilentlyContinue
+      		 Get-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -Force -ErrorAction SilentlyContinue | Out-Null
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/WindowsPowerShell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
             } else {
 	    	 Write-Output "Backup profile found, updating active profile to latest one..."
@@ -111,7 +123,7 @@ Function updatepsprofiles {
                 }
             elseif (!(Test-Path -Path ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -PathType Leaf)) {
 	    	 Write-Output "Downloading powershell 7 profile and backing up old one if avaliable..."
-       		 Get-Item -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -Force -ErrorAction SilentlyContinue
+       		 Get-Item -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -Force -ErrorAction SilentlyContinue | Out-Null
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
             } else {
 	    	 Write-Output "Backup profile found, updating active profile to latest one..."
@@ -123,7 +135,7 @@ Function updatepsprofiles {
               }
 	    elseif (!(Test-Path -Path (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua') -PathType Leaf)) {
      		Write-Output "Add OMP theme to Clink and backing old clink profile if any..."
-                 Get-Item -Path (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua') | Move-Item -Destination (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.bk') -Force -ErrorAction SilentlyContinue
+                 Get-Item -Path (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua') | Move-Item -Destination (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.bk') -Force -ErrorAction SilentlyContinue | Out-Null
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/clink/oh-my-posh.lua' -OutFile (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua')
             }
   if (!(Test-Path -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState'))) {
@@ -132,7 +144,7 @@ Function updatepsprofiles {
                 }
             elseif (!(Test-Path -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settingsbk.json') -PathType Leaf)) {
 	    	 Write-Output "Backing old settings file for windows terminal and downloading custom settings file..."
-                 Get-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json') | Move-Item -Destination ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settingsbk.json') -Force -ErrorAction SilentlyContinue
+                 Get-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json') | Move-Item -Destination ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settingsbk.json') -Force -ErrorAction SilentlyContinue | Out-Null
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/settings.json' -OutFile ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json')
             } else {
 	    	 Write-Output "Backup settings file for windows terminal found, updating custom settings file..."
