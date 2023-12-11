@@ -1,3 +1,4 @@
+cls
 $host.ui.RawUI.WindowTitle = "BlissConsoles installer"
 cmd /c 'title [BlissConsoles installer]'
 Write-Host 'Welcome to BlissConsoles installer';
@@ -54,6 +55,7 @@ Function preinstallation {
 
 #installing required fonts
 Function installfonts {
+Write-Output "Installing required fonts..."
 # Check if CaskaydiaCove NF is installed #Christitus script
 if ($fontFamilies -notcontains "CaskaydiaCove NF") {
     
@@ -77,39 +79,51 @@ if ($fontFamilies -notcontains "CaskaydiaCove NF") {
 
 #update consoles profiles
 Function updatepsprofiles {
+  Write-Output "Updating powershell profiles..."
   if (!(Test-Path -Path ($env:DOCUMENTS + '\WindowsPowerShell'))) {
+  		Write-Output "Creating powershell 5 profile folder..."
                 New-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell') -ItemType "directory"
                 }
             elseif (!(Test-Path -Path ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -PathType Leaf)) {
-                 Get-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -Force
+	    	Write-Output "Downloading powershell 5 profile and backing up old one if avaliable..."
+      		 Get-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -Force | Out-Null
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/WindowsPowerShell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
             } else {
+	    	 Write-Output "Backup profile found, updating active profile to latest one..."
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/WindowsPowerShell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
               }
    if (!(Test-Path -Path ($env:DOCUMENTS + '\Powershell'))) {
+   		Write-Output "Creating powershell 7 profile folder..."
                 New-Item -Path ($env:DOCUMENTS + '\Powershell') -ItemType "directory"
                 }
             elseif (!(Test-Path -Path ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -PathType Leaf)) {
-                 Get-Item -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -Force
+	    	 Write-Output "Downloading powershell 7 profile and backing up old one if avaliable..."
+       		 Get-Item -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -Force | Out-Null
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
             } else {
+	    	 Write-Output "Backup profile found, updating active profile to latest one..."
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
               }
    if (!(Test-Path -Path (${env:ProgramFiles(x86)} + '\clink'))) {
-                 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/clink/oh-my-posh.lua' -OutFile (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua')
-            } else {
-	    if (!(Test-Path -Path (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua') -PathType Leaf)) {
-                 Get-Item -Path (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua') | Move-Item -Destination (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.bk') -Force
+                 Write-Output "Clink is not installed please rerun the script again..."
+		 break
+              }
+	    elseif (!(Test-Path -Path (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua') -PathType Leaf)) {
+     		Write-Output "Add OMP theme to Clink and backing old clink profile if any..."
+                 Get-Item -Path (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua') | Move-Item -Destination (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.bk') -Force | Out-Null
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/clink/oh-my-posh.lua' -OutFile (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua')
             }
      }
   if (!(Test-Path -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState'))) {
+  		Write-Output "Creating windows terminal settings folder..."
                 New-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState') -ItemType "directory"
                 }
             elseif (!(Test-Path -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settingsbk.json') -PathType Leaf)) {
+	    	 Write-Output "Backing old settings file for windows terminal and downloading custom settings file..."
                  Get-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json') | Move-Item -Destination ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settingsbk.json') -Force
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/settings.json' -OutFile ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json')
             } else {
+	    	 Write-Output "Backup settings file for windows terminal found, updating custom settings file..."
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/settings.json' -OutFile ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json')
               }
 	Start-Sleep -Second 3
@@ -117,7 +131,7 @@ Function updatepsprofiles {
 
 #finishing script and reloading profile
 Function Finished {
-Write-host "Wraping thing up..."
+    Write-host "Customizing powershell 5 consoles color and font..."
     Get-ChildItem -Path "HKCU:\Console" -Exclude "%%Startup*","*pwsh*" | ForEach {
   		Set-ItemProperty -Path $_.PsPath -Name "ColorTable05" -Type DWord -Value 0x00562401 -Force
   		Set-ItemProperty -Path $_.PsPath -Name "ColorTable06" -Type DWord -Value 0x00f0edee -Force
@@ -127,7 +141,8 @@ Write-host "Wraping thing up..."
   		Set-ItemProperty -Path $_.PsPath -Name "PopupColors" -Type DWord -Value 0x000000f3 -Force
     		Set-ItemProperty -Path $_.PsPath -Name "FaceName" -Type String -Value 'CaskaydiaCove NFM' -Force
 	}
-  Get-ChildItem -Path "HKCU:\Console" -Exclude "%%Startup*","*WindowsPowerShell*" | ForEach {
+    Get-ChildItem -Path "HKCU:\Console" -Exclude "%%Startup*","*WindowsPowerShell*" | ForEach {
+     Write-host "Customizing powershell 7 consoles color and font..."
 		Set-ItemProperty -Path $_.PsPath -Name "ColorTable00" -Type DWord -Value 0x00342b27 -Force
     		Set-ItemProperty -Path $_.PsPath -Name "FontFamily" -Type DWord -Value 0x00000036 -Force
       		Set-ItemProperty -Path $_.PsPath -Name "FontWeight" -Type DWord -Value 0x00000190 -Force
