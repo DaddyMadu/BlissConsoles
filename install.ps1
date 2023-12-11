@@ -34,7 +34,6 @@ $installationsteps = @(
 	"CreateRestorePoint",
  	"installfonts",
   	"preinstallation",
-   	"updatemodules",
   	"updatepsprofiles",
 	"Finished"
 )
