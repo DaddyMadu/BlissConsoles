@@ -7,7 +7,7 @@ Function RequireAdmin {
   #Check user is running the script is member of Administrator Group
   if($CurrentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator))
   {
-       Write-host "Script is running with Administrator privileges!"
+       Write-host "Script is running with Administrator privileges!, installing BlissConsoles..."
   }
   else
     {
@@ -31,6 +31,7 @@ $installationsteps = @(
 	"CreateRestorePoint",
  	"installfonts",
   	"preinstallation",
+   	"updatemodules",
   	"updatepsprofiles",
 	"Finished"
 )
@@ -48,6 +49,7 @@ Function preinstallation {
 	Write-Output "Getting things ready, installing chocolatey, winget, clink ...etc"
 	Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 	choco install chocolatey-core.extension -y
+ 	choco install choco-cleaner -y
   if ((Get-PackageProvider -Name "NuGet" -Force).version -lt "2.8.5.208" ) {
     try {
 		Write-Host "Checking if Nuget Package is installed..." (Get-PackageProvider -Name "NuGet").version
@@ -83,10 +85,51 @@ Function preinstallation {
   winget install Microsoft.PowerShell -e --accept-source-agreements --accept-package-agreements
   winget install JanDeDobbeleer.OhMyPosh -e --accept-source-agreements --accept-package-agreements
   winget install chrisant996.Clink -e --accept-source-agreements --accept-package-agreements
-  Install-Module -Name Terminal-Icons -Repository PSGallery -Force
-  Install-Module -Name PSReadLine -Repository PSGallery -Force
+  if(-not (Get-Module Terminal-Icons -ListAvailable)){
+  	Install-Module -Name Terminal-Icons -Repository PSGallery -Force
+	}
+  if(-not (Get-Module PSReadLine -ListAvailable)){
+  	Install-Module -Name PSReadLine -Repository PSGallery -Force
+	}
 }
 
+#updating module if found
+Function updatemodules {
+# Get a list of all installed modules
+$installedModules = Get-InstalledModule
+
+$totalModules = $installedModules.Count
+$currentModule = 0
+
+foreach ($module in $installedModules) {
+    $currentModule++
+    
+    # Get all versions of the module
+    $allVersions = Get-InstalledModule -Name $module.Name -AllVersions
+
+    # If there's more than one version installed
+    if ($allVersions.Count -gt 1) {
+        # Sort by version and select all but the latest version
+        $oldVersions = $allVersions | Sort-Object Version | Select-Object -First ($allVersions.Count - 1)
+
+        # Uninstall old versions
+        foreach ($oldVersion in $oldVersions) {
+            Write-Host "Uninstalling $($oldVersion.Name) version $($oldVersion.Version)..."
+            Uninstall-Module -Name $oldVersion.Name -RequiredVersion $oldVersion.Version -Force
+        }
+    }
+
+    # Install the latest version
+    Write-Host "Installing latest version of $($module.Name)..."
+    Install-Module -Name $module.Name -Force -AllowClobber -SkipPublisherCheck
+
+    # Update progress bar
+    Write-Progress -PercentComplete (($currentModule / $totalModules) * 100) -Status "Processing Modules" -Activity "Processed $currentModule of $totalModules"
+}
+
+Write-Progress -Completed
+Write-Host "Script completed!"
+}
 #installing required fonts
 Function installfonts {
 $fontFamilies = (New-Object System.Drawing.Text.InstalledFontCollection).Families
@@ -123,7 +166,7 @@ Function updatepsprofiles {
 	    	Write-Output "Downloading powershell 5 profile and backing up old one if avaliable..."
       		$errpref = $ErrorActionPreference #save actual preference
 		$ErrorActionPreference = "silentlycontinue"
-      		 Get-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -Force -ErrorAction SilentlyContinue
+      		 Get-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -Force -ErrorAction SilentlyContinue >$null
 	 	$ErrorActionPreference = $errpref #restore previous preference
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/WindowsPowerShell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
             } else {
@@ -132,13 +175,13 @@ Function updatepsprofiles {
               }
    if (!(Test-Path -Path ($env:DOCUMENTS + '\Powershell'))) {
    		Write-Output "Creating powershell 7 profile folder..."
-                New-Item -Path ($env:DOCUMENTS + '\Powershell') -ItemType "directory"
+                New-Item -Path ($env:DOCUMENTS + '\Powershell') -ItemType "directory" >$null
                 }
             elseif (!(Test-Path -Path ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -PathType Leaf)) {
 	    	 Write-Output "Downloading powershell 7 profile and backing up old one if avaliable..."
        		 $errpref = $ErrorActionPreference #save actual preference
 		 $ErrorActionPreference = "silentlycontinue"
-       		 Get-Item -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -Force -ErrorAction SilentlyContinue
+       		 Get-Item -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -Force -ErrorAction SilentlyContinue >$null
 	  	 $ErrorActionPreference = $errpref #restore previous preference
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
             } else {
@@ -153,19 +196,19 @@ Function updatepsprofiles {
      		Write-Output "Add OMP theme to Clink and backing old clink profile if any..."
        		$errpref = $ErrorActionPreference #save actual preference
 		$ErrorActionPreference = "silentlycontinue"
-                 Get-Item -Path (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua') | Move-Item -Destination (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.bk') -Force -ErrorAction SilentlyContinue
+                 Get-Item -Path (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua') | Move-Item -Destination (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.bk') -Force -ErrorAction SilentlyContinue >$null
 		 $ErrorActionPreference = $errpref #restore previous preference
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/clink/oh-my-posh.lua' -OutFile (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua')
             }
   if (!(Test-Path -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState'))) {
   		Write-Output "Creating windows terminal settings folder..."
-                New-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState') -ItemType "directory"
+                New-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState') -ItemType "directory" >$null
                 }
             elseif (!(Test-Path -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settingsbk.json') -PathType Leaf)) {
 	    	 Write-Output "Backing old settings file for windows terminal and downloading custom settings file..."
        		 $errpref = $ErrorActionPreference #save actual preference
 		 $ErrorActionPreference = "silentlycontinue"
-                 Get-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json') | Move-Item -Destination ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settingsbk.json') -Force -ErrorAction SilentlyContinue
+                 Get-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json') | Move-Item -Destination ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settingsbk.json') -Force -ErrorAction SilentlyContinue >$null
 		 $ErrorActionPreference = $errpref #restore previous preference
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/settings.json' -OutFile ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json')
             } else {
@@ -198,6 +241,7 @@ Function Finished {
       		Set-ItemProperty -Path $_.PsPath -Name "WindowAlpha" -Type DWord -Value 0x000000e8 -Force -ErrorAction SilentlyContinue
 	}
  		$ErrorActionPreference = $errpref #restore previous preference
+   	Write-host "BlissConsoles installed successfully!, Please restart your terminal to get a Blissed Console ;)"
 }
 
 
