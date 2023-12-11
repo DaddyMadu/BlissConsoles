@@ -42,13 +42,26 @@ Function preinstallation {
    If(-not(Get-InstalledScript winget-install -ErrorAction silentlycontinue)){
     Install-Script -Name winget-install -Confirm:$False -Force
   }
+  if ((Get-PackageProvider -Name "NuGet" -Force).version -lt "2.8.5.208" ) {
+    try {
+		Write-Host "Checking if Nuget Package is installed..." (Get-PackageProvider -Name "NuGet").version
+		Write-Host "Installing Nuget packageprovider updates..."
+        Install-PackageProvider -Name "NuGet" -MinimumVersion "2.8.5.208" -Confirm:$False -Force 
+    }
+    catch [Exception]{
+        $_.message 
+        exit
+    }
+} else {
+    Write-Host "Version of NuGet installed = " (Get-PackageProvider -Name "NuGet").version
+}
   winget-install
   winget-install -CheckForUpdate
   Start-Sleep -Second 3
-  winget install -e --accept-source-agreements --accept-package-agreements Microsoft.WindowsTerminal
-  winget install -e --accept-source-agreements --accept-package-agreements Microsoft.PowerShell
-  winget install -e --accept-source-agreements --accept-package-agreements JanDeDobbeleer.OhMyPosh
-  winget install -e --accept-source-agreements --accept-package-agreements chrisant996.Clink
+  winget install Microsoft.WindowsTerminal -e --accept-source-agreements --accept-package-agreements
+  winget install Microsoft.PowerShell -e --accept-source-agreements --accept-package-agreements
+  winget install JanDeDobbeleer.OhMyPosh -e --accept-source-agreements --accept-package-agreements
+  winget install chrisant996.Clink -e --accept-source-agreements --accept-package-agreements
   Install-Module -Name Terminal-Icons -Repository PSGallery -Force
   Install-Module -Name PSReadLine -Repository PSGallery -Force
 }
@@ -72,8 +85,8 @@ if ($fontFamilies -notcontains "CaskaydiaCove NF") {
         }
     }
     # Clean up
-    Remove-Item -Path ".\CascadiaCode" -Recurse -Force
-    Remove-Item -Path ".\CascadiaCode.zip" -Force
+    Remove-Item -Path ".\CascadiaCode" -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path ".\CascadiaCode.zip" -Force -ErrorAction SilentlyContinue
     }
 }
 
@@ -86,7 +99,7 @@ Function updatepsprofiles {
                 }
             elseif (!(Test-Path -Path ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -PathType Leaf)) {
 	    	Write-Output "Downloading powershell 5 profile and backing up old one if avaliable..."
-      		 Get-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -Force | Out-Null
+      		 Get-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -Force -ErrorAction SilentlyContinue
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/WindowsPowerShell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
             } else {
 	    	 Write-Output "Backup profile found, updating active profile to latest one..."
@@ -98,7 +111,7 @@ Function updatepsprofiles {
                 }
             elseif (!(Test-Path -Path ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -PathType Leaf)) {
 	    	 Write-Output "Downloading powershell 7 profile and backing up old one if avaliable..."
-       		 Get-Item -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -Force | Out-Null
+       		 Get-Item -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -Force -ErrorAction SilentlyContinue
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
             } else {
 	    	 Write-Output "Backup profile found, updating active profile to latest one..."
@@ -110,7 +123,7 @@ Function updatepsprofiles {
               }
 	    elseif (!(Test-Path -Path (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua') -PathType Leaf)) {
      		Write-Output "Add OMP theme to Clink and backing old clink profile if any..."
-                 Get-Item -Path (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua') | Move-Item -Destination (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.bk') -Force | Out-Null
+                 Get-Item -Path (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua') | Move-Item -Destination (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.bk') -Force -ErrorAction SilentlyContinue
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/clink/oh-my-posh.lua' -OutFile (${env:ProgramFiles(x86)} + '\clink\oh-my-posh.lua')
             }
   if (!(Test-Path -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState'))) {
@@ -119,7 +132,7 @@ Function updatepsprofiles {
                 }
             elseif (!(Test-Path -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settingsbk.json') -PathType Leaf)) {
 	    	 Write-Output "Backing old settings file for windows terminal and downloading custom settings file..."
-                 Get-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json') | Move-Item -Destination ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settingsbk.json') -Force
+                 Get-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json') | Move-Item -Destination ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settingsbk.json') -Force -ErrorAction SilentlyContinue
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/settings.json' -OutFile ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json')
             } else {
 	    	 Write-Output "Backup settings file for windows terminal found, updating custom settings file..."
@@ -132,21 +145,21 @@ Function updatepsprofiles {
 Function Finished {
     Write-host "Customizing powershell 5 consoles color and font..."
     Get-ChildItem -Path "HKCU:\Console" -Exclude "%%Startup*","*pwsh*" | ForEach {
-  		Set-ItemProperty -Path $_.PsPath -Name "ColorTable05" -Type DWord -Value 0x00562401 -Force
-  		Set-ItemProperty -Path $_.PsPath -Name "ColorTable06" -Type DWord -Value 0x00f0edee -Force
-    		Set-ItemProperty -Path $_.PsPath -Name "FontFamily" -Type DWord -Value 0x00000036 -Force
-      		Set-ItemProperty -Path $_.PsPath -Name "FontWeight" -Type DWord -Value 0x00000190 -Force
-		Set-ItemProperty -Path $_.PsPath -Name "ScreenColors" -Type DWord -Value 0x00000056 -Force
-  		Set-ItemProperty -Path $_.PsPath -Name "PopupColors" -Type DWord -Value 0x000000f3 -Force
-    		Set-ItemProperty -Path $_.PsPath -Name "FaceName" -Type String -Value 'CaskaydiaCove NFM' -Force
+  		Set-ItemProperty -Path $_.PsPath -Name "ColorTable05" -Type DWord -Value 0x00562401 -Force -ErrorAction SilentlyContinue
+  		Set-ItemProperty -Path $_.PsPath -Name "ColorTable06" -Type DWord -Value 0x00f0edee -Force -ErrorAction SilentlyContinue
+    		Set-ItemProperty -Path $_.PsPath -Name "FontFamily" -Type DWord -Value 0x00000036 -Force -ErrorAction SilentlyContinue
+      		Set-ItemProperty -Path $_.PsPath -Name "FontWeight" -Type DWord -Value 0x00000190 -Force -ErrorAction SilentlyContinue
+		Set-ItemProperty -Path $_.PsPath -Name "ScreenColors" -Type DWord -Value 0x00000056 -Force -ErrorAction SilentlyContinue
+  		Set-ItemProperty -Path $_.PsPath -Name "PopupColors" -Type DWord -Value 0x000000f3 -Force -ErrorAction SilentlyContinue
+    		Set-ItemProperty -Path $_.PsPath -Name "FaceName" -Type String -Value 'CaskaydiaCove NFM' -Force -ErrorAction SilentlyContinue
 	}
     Get-ChildItem -Path "HKCU:\Console" -Exclude "%%Startup*","*WindowsPowerShell*" | ForEach {
      Write-host "Customizing powershell 7 consoles color and font..."
-		Set-ItemProperty -Path $_.PsPath -Name "ColorTable00" -Type DWord -Value 0x00342b27 -Force
-    		Set-ItemProperty -Path $_.PsPath -Name "FontFamily" -Type DWord -Value 0x00000036 -Force
-      		Set-ItemProperty -Path $_.PsPath -Name "FontWeight" -Type DWord -Value 0x00000190 -Force
-    		Set-ItemProperty -Path $_.PsPath -Name "FaceName" -Type String -Value 'CaskaydiaCove NFM' -Force
-      		Set-ItemProperty -Path $_.PsPath -Name "WindowAlpha" -Type DWord -Value 0x000000e8 -Force
+		Set-ItemProperty -Path $_.PsPath -Name "ColorTable00" -Type DWord -Value 0x00342b27 -Force -ErrorAction SilentlyContinue
+    		Set-ItemProperty -Path $_.PsPath -Name "FontFamily" -Type DWord -Value 0x00000036 -Force -ErrorAction SilentlyContinue
+      		Set-ItemProperty -Path $_.PsPath -Name "FontWeight" -Type DWord -Value 0x00000190 -Force -ErrorAction SilentlyContinue
+    		Set-ItemProperty -Path $_.PsPath -Name "FaceName" -Type String -Value 'CaskaydiaCove NFM' -Force -ErrorAction SilentlyContinue
+      		Set-ItemProperty -Path $_.PsPath -Name "WindowAlpha" -Type DWord -Value 0x000000e8 -Force -ErrorAction SilentlyContinue
 	}
 }
 
