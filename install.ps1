@@ -205,10 +205,17 @@ Function updatepsprofiles {
 
 #finishing script and reloading profile
 Function Finished {
-    Write-host "Customizing powershell 5 consoles color and font..."
+    Write-host "Customizing powershell 5,7,cmd,conhost consoles color and font..."
     		$errpref = $ErrorActionPreference #save actual preference
 		$ErrorActionPreference = "silentlycontinue"
-    Get-ChildItem -Path "HKCU:\Console" -Exclude "%%Startup*","*pwsh*" | ForEach {
+   if (!(Test-Path "HKCU:\Console\%SystemRoot%_System32_cmd.exe" -PathType Container)) {
+		New-Item -Path "HKCU:\Console\%SystemRoot%_System32_cmd.exe" -ItemType RegistryKey -Force
+  	}
+   if (!(Test-Path "HKCU:\Console\%SystemRoot%_System32_conhost.exe" -PathType Container)) {
+		New-Item -Path "HKCU:\Console\%SystemRoot%_System32_conhost.exe" -ItemType RegistryKey -Force
+  	}
+    Get-ChildItem -Path "HKCU:\Console" -Exclude "%%Startup*" | ForEach {
+		Set-ItemProperty -Path $_.PsPath -Name "ColorTable00" -Type DWord -Value 0x00342b27 -Force -ErrorAction SilentlyContinue
   		Set-ItemProperty -Path $_.PsPath -Name "ColorTable05" -Type DWord -Value 0x00562401 -Force -ErrorAction SilentlyContinue
   		Set-ItemProperty -Path $_.PsPath -Name "ColorTable06" -Type DWord -Value 0x00f0edee -Force -ErrorAction SilentlyContinue
     		Set-ItemProperty -Path $_.PsPath -Name "FontFamily" -Type DWord -Value 0x00000036 -Force -ErrorAction SilentlyContinue
@@ -216,15 +223,19 @@ Function Finished {
 		Set-ItemProperty -Path $_.PsPath -Name "ScreenColors" -Type DWord -Value 0x00000056 -Force -ErrorAction SilentlyContinue
   		Set-ItemProperty -Path $_.PsPath -Name "PopupColors" -Type DWord -Value 0x000000f3 -Force -ErrorAction SilentlyContinue
     		Set-ItemProperty -Path $_.PsPath -Name "FaceName" -Type String -Value 'CaskaydiaCove NFM' -Force -ErrorAction SilentlyContinue
-	}
-    Get-ChildItem -Path "HKCU:\Console" -Exclude "%%Startup*","*WindowsPowerShell*" | ForEach {
-     Write-host "Customizing powershell 7 consoles color and font..."
-		Set-ItemProperty -Path $_.PsPath -Name "ColorTable00" -Type DWord -Value 0x00342b27 -Force -ErrorAction SilentlyContinue
-    		Set-ItemProperty -Path $_.PsPath -Name "FontFamily" -Type DWord -Value 0x00000036 -Force -ErrorAction SilentlyContinue
-      		Set-ItemProperty -Path $_.PsPath -Name "FontWeight" -Type DWord -Value 0x00000190 -Force -ErrorAction SilentlyContinue
-    		Set-ItemProperty -Path $_.PsPath -Name "FaceName" -Type String -Value 'CaskaydiaCove NFM' -Force -ErrorAction SilentlyContinue
       		Set-ItemProperty -Path $_.PsPath -Name "WindowAlpha" -Type DWord -Value 0x000000e8 -Force -ErrorAction SilentlyContinue
+		
 	}
+ 		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable00" -Type DWord -Value 0x00342b27 -Force -ErrorAction SilentlyContinue
+  		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable05" -Type DWord -Value 0x00562401 -Force -ErrorAction SilentlyContinue
+  		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable06" -Type DWord -Value 0x00f0edee -Force -ErrorAction SilentlyContinue
+    		Set-ItemProperty -Path "HKCU:\Console" -Name "FontFamily" -Type DWord -Value 0x00000036 -Force -ErrorAction SilentlyContinue
+      		Set-ItemProperty -Path "HKCU:\Console" -Name "FontWeight" -Type DWord -Value 0x00000190 -Force -ErrorAction SilentlyContinue
+		Set-ItemProperty -Path "HKCU:\Console" -Name "ScreenColors" -Type DWord -Value 0x00000056 -Force -ErrorAction SilentlyContinue
+  		Set-ItemProperty -Path "HKCU:\Console" -Name "PopupColors" -Type DWord -Value 0x000000f3 -Force -ErrorAction SilentlyContinue
+    		Set-ItemProperty -Path "HKCU:\Console" -Name "FaceName" -Type String -Value 'CaskaydiaCove NFM' -Force -ErrorAction SilentlyContinue
+      		Set-ItemProperty -Path "HKCU:\Console" -Name "WindowAlpha" -Type DWord -Value 0x000000e8 -Force -ErrorAction SilentlyContinue
+		
  		$ErrorActionPreference = $errpref #restore previous preference
    	Write-host "BlissConsoles v1.3 installed successfully!, Please restart your terminal to get a Blissed Console ;)"
 }
