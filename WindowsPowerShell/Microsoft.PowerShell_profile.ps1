@@ -185,8 +185,9 @@ Function disable-terminalupdate {
 Function enable-terminalupdate {
  Remove-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\donotupdate.txt') -Force
 }
-Function Get-PubIP {
- (Invoke-WebRequest http://ifconfig.me/ip ).Content
+Function get-ipinfo {
+ $InfoInJSON = Invoke-WebRequest -URI https://ifconfig.co/json | Select -expand Content | ConvertFrom-Json
+ $InfoInJSON | Select-Object * -ExcludeProperty  ip_decimal,country_iso,country_eu,region_code,region_name,latitude,longitude,asn,user_agent
 }
 function uptime {
 	$bootuptime = (Get-CimInstance -ClassName Win32_OperatingSystem).LastBootUpTime
