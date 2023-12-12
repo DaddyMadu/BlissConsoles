@@ -209,6 +209,9 @@ Function Finished {
     		$errpref = $ErrorActionPreference #save actual preference
 		$ErrorActionPreference = "silentlycontinue"
     Get-ChildItem -Path "HKCU:\Console" -Exclude "%%Startup*" | ForEach {
+    		Set-ItemProperty -Path $_.PsPath -Name "ColorTable05" -Type DWord -Value 0x00332c27 -Force -ErrorAction SilentlyContinue
+      		Set-ItemProperty -Path $_.PsPath -Name "ColorTable06" -Type DWord -Value 0x00e4dfdb -Force -ErrorAction SilentlyContinue
+		Set-ItemProperty -Path $_.PsPath -Name "ColorTable15" -Type DWord -Value 0x00e4dfd2 -Force -ErrorAction SilentlyContinue
     		Set-ItemProperty -Path $_.PsPath -Name "FontFamily" -Type DWord -Value 0x00000036 -Force -ErrorAction SilentlyContinue
       		Set-ItemProperty -Path $_.PsPath -Name "FontWeight" -Type DWord -Value 0x00000190 -Force -ErrorAction SilentlyContinue
 		Set-ItemProperty -Path $_.PsPath -Name "ScreenColors" -Type DWord -Value 0x00000056 -Force -ErrorAction SilentlyContinue
@@ -217,22 +220,9 @@ Function Finished {
       		Set-ItemProperty -Path $_.PsPath -Name "WindowAlpha" -Type DWord -Value 0x000000e8 -Force -ErrorAction SilentlyContinue
 		
 	}
- 		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable00" -Type DWord -Value 0x00332c27 -Force -ErrorAction SilentlyContinue
-  		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable01" -Type DWord -Value 0x00efaf61 -Force -ErrorAction SilentlyContinue
-    		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable02" -Type DWord -Value 0x0079c398 -Force -ErrorAction SilentlyContinue
-    		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable03" -Type DWord -Value 0x00c1b556 -Force -ErrorAction SilentlyContinue
-      		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable04" -Type DWord -Value 0x00756cdf -Force -ErrorAction SilentlyContinue
-		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable05" -Type DWord -Value 0x00dd77c5 -Force -ErrorAction SilentlyContinue
-      		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable06" -Type DWord -Value 0x007ac0e4 -Force -ErrorAction SilentlyContinue
-      		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable07" -Type DWord -Value 0x00e4dfdb -Force -ErrorAction SilentlyContinue
-  		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable08" -Type DWord -Value 0x0074635a -Force -ErrorAction SilentlyContinue
-    		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable09" -Type DWord -Value 0x00efaf61 -Force -ErrorAction SilentlyContinue
-      		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable10" -Type DWord -Value 0x0079c398 -Force -ErrorAction SilentlyContinue
-		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable11" -Type DWord -Value 0x00c1b556 -Force -ErrorAction SilentlyContinue
-  		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable12" -Type DWord -Value 0x00756cdf -Force -ErrorAction SilentlyContinue
-    		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable13" -Type DWord -Value 0x00dd77c5 -Force -ErrorAction SilentlyContinue
-      		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable14" -Type DWord -Value 0x007ac0e4 -Force -ErrorAction SilentlyContinue
-		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable15" -Type DWord -Value 0x00e4dfdb -Force -ErrorAction SilentlyContinue
+		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable05" -Type DWord -Value 0x00332c27 -Force -ErrorAction SilentlyContinue
+      		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable06" -Type DWord -Value 0x00e4dfdb -Force -ErrorAction SilentlyContinue
+		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable15" -Type DWord -Value 0x00e4dfd2 -Force -ErrorAction SilentlyContinue
     		Set-ItemProperty -Path "HKCU:\Console" -Name "FontFamily" -Type DWord -Value 0x00000036 -Force -ErrorAction SilentlyContinue
       		Set-ItemProperty -Path "HKCU:\Console" -Name "FontWeight" -Type DWord -Value 0x00000190 -Force -ErrorAction SilentlyContinue
 		Set-ItemProperty -Path "HKCU:\Console" -Name "ScreenColors" -Type DWord -Value 0x00000056 -Force -ErrorAction SilentlyContinue
