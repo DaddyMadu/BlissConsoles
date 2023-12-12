@@ -208,12 +208,12 @@ Function Finished {
     Write-host "Customizing powershell 5,7,cmd,conhost consoles color and font..."
     		$errpref = $ErrorActionPreference #save actual preference
 		$ErrorActionPreference = "silentlycontinue"
-   if (!(Test-Path "HKCU:\Console\%SystemRoot%_System32_cmd.exe" -PathType Container)) {
-		New-Item -Path "HKCU:\Console\%SystemRoot%_System32_cmd.exe" -ItemType RegistryKey -Force
-  	}
-   if (!(Test-Path "HKCU:\Console\%SystemRoot%_System32_conhost.exe" -PathType Container)) {
-		New-Item -Path "HKCU:\Console\%SystemRoot%_System32_conhost.exe" -ItemType RegistryKey -Force
-  	}
+   #if (!(Test-Path "HKCU:\Console\%SystemRoot%_System32_cmd.exe" -PathType Container)) {
+		#New-Item -Path "HKCU:\Console\%SystemRoot%_System32_cmd.exe" -ItemType RegistryKey -Force
+  	#}
+   #if (!(Test-Path "HKCU:\Console\%SystemRoot%_System32_conhost.exe" -PathType Container)) {
+		#New-Item -Path "HKCU:\Console\%SystemRoot%_System32_conhost.exe" -ItemType RegistryKey -Force
+  	#}
     Get-ChildItem -Path "HKCU:\Console" -Exclude "%%Startup*" | ForEach {
 		Set-ItemProperty -Path $_.PsPath -Name "ColorTable00" -Type DWord -Value 0x00342b27 -Force -ErrorAction SilentlyContinue
   		Set-ItemProperty -Path $_.PsPath -Name "ColorTable05" -Type DWord -Value 0x00562401 -Force -ErrorAction SilentlyContinue
