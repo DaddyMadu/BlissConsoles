@@ -232,6 +232,7 @@ Function Finished {
 		
  		$ErrorActionPreference = $errpref #restore previous preference
    	Write-host "BlissConsoles v1.3 installed successfully!, Please restart your terminal to get a Blissed Console ;)"
+      	pause
 }
 
 
