@@ -215,22 +215,6 @@ Function Finished {
 		#New-Item -Path "HKCU:\Console\%SystemRoot%_System32_conhost.exe" -ItemType RegistryKey -Force
   	#}
     Get-ChildItem -Path "HKCU:\Console" -Exclude "%%Startup*" | ForEach {
-		Set-ItemProperty -Path $_.PsPath -Name "ColorTable00" -Type DWord -Value 0x000c0c0c -Force -ErrorAction SilentlyContinue
-  		Set-ItemProperty -Path $_.PsPath -Name "ColorTable01" -Type DWord -Value 0x00da3700 -Force -ErrorAction SilentlyContinue
-    		Set-ItemProperty -Path $_.PsPath -Name "ColorTable02" -Type DWord -Value 0x000ea113 -Force -ErrorAction SilentlyContinue
-    		Set-ItemProperty -Path $_.PsPath -Name "ColorTable03" -Type DWord -Value 0x00dd963a -Force -ErrorAction SilentlyContinue
-      		Set-ItemProperty -Path $_.PsPath -Name "ColorTable04" -Type DWord -Value 0x001f0fc5 -Force -ErrorAction SilentlyContinue
-		Set-ItemProperty -Path $_.PsPath -Name "ColorTable05" -Type DWord -Value 0x00981788 -Force -ErrorAction SilentlyContinue
-      		Set-ItemProperty -Path $_.PsPath -Name "ColorTable06" -Type DWord -Value 0x00009cc1 -Force -ErrorAction SilentlyContinue
-      		Set-ItemProperty -Path $_.PsPath -Name "ColorTable07" -Type DWord -Value 0x00cccccc -Force -ErrorAction SilentlyContinue
-  		Set-ItemProperty -Path $_.PsPath -Name "ColorTable08" -Type DWord -Value 0x00767676 -Force -ErrorAction SilentlyContinue
-    		Set-ItemProperty -Path $_.PsPath -Name "ColorTable09" -Type DWord -Value 0x00ff783b -Force -ErrorAction SilentlyContinue
-      		Set-ItemProperty -Path $_.PsPath -Name "ColorTable10" -Type DWord -Value 0x000cc616 -Force -ErrorAction SilentlyContinue
-		Set-ItemProperty -Path $_.PsPath -Name "ColorTable11" -Type DWord -Value 0x00d6d661 -Force -ErrorAction SilentlyContinue
-  		Set-ItemProperty -Path $_.PsPath -Name "ColorTable12" -Type DWord -Value 0x005648e7 -Force -ErrorAction SilentlyContinue
-    		Set-ItemProperty -Path $_.PsPath -Name "ColorTable13" -Type DWord -Value 0x009e00b4 -Force -ErrorAction SilentlyContinue
-      		Set-ItemProperty -Path $_.PsPath -Name "ColorTable14" -Type DWord -Value 0x00a5f1f9 -Force -ErrorAction SilentlyContinue
-		Set-ItemProperty -Path $_.PsPath -Name "ColorTable15" -Type DWord -Value 0x00f2f2f2 -Force -ErrorAction SilentlyContinue
     		Set-ItemProperty -Path $_.PsPath -Name "FontFamily" -Type DWord -Value 0x00000036 -Force -ErrorAction SilentlyContinue
       		Set-ItemProperty -Path $_.PsPath -Name "FontWeight" -Type DWord -Value 0x00000190 -Force -ErrorAction SilentlyContinue
 		Set-ItemProperty -Path $_.PsPath -Name "ScreenColors" -Type DWord -Value 0x00000056 -Force -ErrorAction SilentlyContinue
@@ -239,22 +223,6 @@ Function Finished {
       		Set-ItemProperty -Path $_.PsPath -Name "WindowAlpha" -Type DWord -Value 0x000000e8 -Force -ErrorAction SilentlyContinue
 		
 	}
- 		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable00" -Type DWord -Value 0x000c0c0c -Force -ErrorAction SilentlyContinue
-  		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable01" -Type DWord -Value 0x00da3700 -Force -ErrorAction SilentlyContinue
-    		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable02" -Type DWord -Value 0x000ea113 -Force -ErrorAction SilentlyContinue
-    		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable03" -Type DWord -Value 0x00dd963a -Force -ErrorAction SilentlyContinue
-      		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable04" -Type DWord -Value 0x001f0fc5 -Force -ErrorAction SilentlyContinue
-		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable05" -Type DWord -Value 0x00981788 -Force -ErrorAction SilentlyContinue
-      		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable06" -Type DWord -Value 0x00009cc1 -Force -ErrorAction SilentlyContinue
-      		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable07" -Type DWord -Value 0x00cccccc -Force -ErrorAction SilentlyContinue
-  		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable08" -Type DWord -Value 0x00767676 -Force -ErrorAction SilentlyContinue
-    		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable09" -Type DWord -Value 0x00ff783b -Force -ErrorAction SilentlyContinue
-      		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable10" -Type DWord -Value 0x000cc616 -Force -ErrorAction SilentlyContinue
-		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable11" -Type DWord -Value 0x00d6d661 -Force -ErrorAction SilentlyContinue
-  		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable12" -Type DWord -Value 0x005648e7 -Force -ErrorAction SilentlyContinue
-    		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable13" -Type DWord -Value 0x009e00b4 -Force -ErrorAction SilentlyContinue
-      		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable14" -Type DWord -Value 0x00a5f1f9 -Force -ErrorAction SilentlyContinue
-		Set-ItemProperty -Path "HKCU:\Console" -Name "ColorTable15" -Type DWord -Value 0x00f2f2f2 -Force -ErrorAction SilentlyContinue
     		Set-ItemProperty -Path "HKCU:\Console" -Name "FontFamily" -Type DWord -Value 0x00000036 -Force -ErrorAction SilentlyContinue
       		Set-ItemProperty -Path "HKCU:\Console" -Name "FontWeight" -Type DWord -Value 0x00000190 -Force -ErrorAction SilentlyContinue
 		Set-ItemProperty -Path "HKCU:\Console" -Name "ScreenColors" -Type DWord -Value 0x00000056 -Force -ErrorAction SilentlyContinue
