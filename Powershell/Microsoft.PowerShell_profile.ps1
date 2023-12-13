@@ -187,8 +187,23 @@ Function enable-terminalupdate {
  Remove-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\donotupdate.txt') -Force
 }
 Function get-ipinfo {
- $InfoInJSON = Invoke-WebRequest -URI https://ifconfig.co/json | Select -expand Content | ConvertFrom-Json
- $InfoInJSON | Select-Object * -ExcludeProperty  ip_decimal,country_iso,country_eu,region_code,region_name,latitude,longitude,asn,user_agent
+ $InfoFromJSON = Invoke-WebRequest -URI https://ifconfig.co/json | Select -expand Content | ConvertFrom-Json
+ $FilteredJSON = $InfoFromJSON | Select-Object * -ExcludeProperty  ip_decimal,country_iso,country_eu,region_code,region_name,latitude,longitude,asn,user_agent
+$FilteredJSON.asn_org |
+    ForEach-Object{
+        if ($FilteredJSON.asn_org -EQ "RAYA Telecom - Egypt") {
+            $FilteredJSON.asn_org = 
+                $FilteredJSON.asn_org.Replace("RAYA Telecom - Egypt", "Vodafone - Egypt")
+        }
+		elseif ($FilteredJSON.asn_org -EQ "TE-AS") {
+            $FilteredJSON.asn_org = 
+                $FilteredJSON.asn_org.Replace("TE-AS", "WE - Egypt")
+        } else {
+			$FilteredJSON.asn_org = 
+                $FilteredJSON.asn_org
+		}
+    }
+$FilteredJSON
 }
 function uptime {
 	$bootuptime = (Get-CimInstance -ClassName Win32_OperatingSystem).LastBootUpTime
