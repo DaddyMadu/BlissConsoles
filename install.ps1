@@ -68,11 +68,11 @@ Function preinstallation {
    If(-not(Get-InstalledScript winget-install -ErrorAction silentlycontinue)){
     Install-Script -Name winget-install -Confirm:$False -Force
   }
-   if ((winget -v) -lt "v1.6.3132" ) {
+   if ((winget -v) -lt "v1.6.3421" ) {
     try {
 		Write-Host "Checking if winget is installed..." (winget)
 		Write-Host "Installing winget updates..."
-  		Add-AppxPackage -Path 'https://github.com/microsoft/winget-cli/releases/download/v1.6.3133/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'
+  		Add-AppxPackage -Path 'https://github.com/microsoft/winget-cli/releases/download/v1.6.3421/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'
     }
     catch [Exception]{
         $_.message 
