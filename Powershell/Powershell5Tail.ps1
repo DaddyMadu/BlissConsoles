@@ -1,4 +1,3 @@
-Import-Module PSReadLine;
 function prompt {
   if (Test-Path variable:global:ompjob) {
     Receive-Job -Wait -AutoRemoveJob -Job $global:ompjob | Invoke-Expression;
