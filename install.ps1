@@ -139,11 +139,11 @@ Function updatepsprofiles {
       		 Get-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -Force -ErrorAction SilentlyContinue >$null
 	 	$ErrorActionPreference = $errpref #restore previous preference
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
-				 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Powershell5Tail.ps1' | Add-Content -Path ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
+				 Invoke-WebRequest 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Powershell5Tail.ps1' | Select-Object -ExpandProperty Content | Add-Content -Path ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
             } else {
 	    	 Write-Output "Backup profile found, updating powershell 5 active profile to latest one..."
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
-				 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Powershell5Tail.ps1' | Add-Content -Path ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
+				 Invoke-WebRequest 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Powershell5Tail.ps1' | Select-Object -ExpandProperty Content | Add-Content -Path ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
               	}
 	      } else {
 	Write-Output "Donotupdate file found in $env:DOCUMENTS\WindowsPowerShell\donotupdate.txt, skipping update powershell 5 profile..."
@@ -160,11 +160,11 @@ Function updatepsprofiles {
        		 Get-Item -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -Force -ErrorAction SilentlyContinue >$null
 	  	 $ErrorActionPreference = $errpref #restore previous preference
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1') 
-				 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Powershell7Tail.ps1' | Add-Content -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
+				 Invoke-WebRequest 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Powershell7Tail.ps1' | Select-Object -ExpandProperty Content | Add-Content -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
             } else {
 	    	 Write-Output "Backup profile found, updating powershell 7 active profile to latest one..."
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
-				 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Powershell7Tail.ps1' | Add-Content -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
+				 Invoke-WebRequest 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Powershell7Tail.ps1' | Select-Object -ExpandProperty Content | Add-Content -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
               	}
 	      } else {
 	Write-Output "Donotupdate file found in $env:DOCUMENTS\Powershell\donotupdate.txt, skipping update powershell 7 profile..."
