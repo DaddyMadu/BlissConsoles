@@ -43,7 +43,7 @@ Function CreateRestorePoint {
   Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore" -Name "SystemRestorePointCreationFrequency" -Value 0
   cmd /c 'vssadmin resize shadowstorage /on="%SystemDrive%" /For="%SystemDrive%" /MaxSize=5GB 2>nul' >$null
   Enable-ComputerRestore -Drive "$env:SystemDrive\"
-  Checkpoint-Computer -Description "BeforeDaddyMaduScript" -RestorePointType "MODIFY_SETTINGS"
+  Checkpoint-Computer -Description "BeforeBlissConsolesUpdate" -RestorePointType "MODIFY_SETTINGS"
 }
 
 #setting up pre installation apps required for the rest to be functional
