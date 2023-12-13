@@ -138,10 +138,12 @@ Function updatepsprofiles {
 		$ErrorActionPreference = "silentlycontinue"
       		 Get-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -Force -ErrorAction SilentlyContinue >$null
 	 	$ErrorActionPreference = $errpref #restore previous preference
-                 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/WindowsPowerShell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
+                 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
+				 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Powershell5Tail.ps1' | Add-Content -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
             } else {
 	    	 Write-Output "Backup profile found, updating powershell 5 active profile to latest one..."
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/WindowsPowerShell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
+				 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Powershell5Tail.ps1' | Add-Content -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
               	}
 	      } else {
 	Write-Output "Donotupdate file found in $env:DOCUMENTS\WindowsPowerShell\donotupdate.txt, skipping update powershell 5 profile..."
@@ -157,10 +159,12 @@ Function updatepsprofiles {
 		 $ErrorActionPreference = "silentlycontinue"
        		 Get-Item -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1') | Move-Item -Destination ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -Force -ErrorAction SilentlyContinue >$null
 	  	 $ErrorActionPreference = $errpref #restore previous preference
-                 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
+                 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1') 
+				 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Powershell7Tail.ps1' | Add-Content -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
             } else {
 	    	 Write-Output "Backup profile found, updating powershell 7 active profile to latest one..."
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
+				 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Powershell7Tail.ps1' | Add-Content -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
               	}
 	      } else {
 	Write-Output "Donotupdate file found in $env:DOCUMENTS\Powershell\donotupdate.txt, skipping update powershell 7 profile..."
@@ -192,10 +196,10 @@ Function updatepsprofiles {
 		 $ErrorActionPreference = "silentlycontinue"
                  Get-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json') | Move-Item -Destination ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settingsbk.json') -Force -ErrorAction SilentlyContinue >$null
 		 $ErrorActionPreference = $errpref #restore previous preference
-                 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/settings.json' -OutFile ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json')
+                 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Terminal/settings.json' -OutFile ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json')
             } else {
 	    	 Write-Output "Backup settings file for windows terminal found, updating custom settings file..."
-                 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/settings.json' -OutFile ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json')
+                 Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Terminal/settings.json' -OutFile ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json')
               	}
 	      } else {
 	Write-Output "Donotupdate file found in $env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\donotupdate.txt, skipping update terminal settings..."
@@ -231,7 +235,7 @@ Function Finished {
       		Set-ItemProperty -Path "HKCU:\Console" -Name "WindowAlpha" -Type DWord -Value 0x000000e8 -Force -ErrorAction SilentlyContinue
 		
  		$ErrorActionPreference = $errpref #restore previous preference
-   	Write-host "BlissConsoles v1.3 installed successfully!, Please restart your terminal to get a Blissed Console ;)"
+   	Write-host "BlissConsoles v1.4 installed successfully!, Please restart your terminal to get a Blissed Console ;)"
       	pause
 }
 
