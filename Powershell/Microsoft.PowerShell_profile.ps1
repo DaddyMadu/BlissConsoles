@@ -18,7 +18,6 @@ $principal = New-Object Security.Principal.WindowsPrincipal $identity
 $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 $env:DOCUMENTS = [Environment]::GetFolderPath([Environment+SpecialFolder]::MyDocuments)
 $env:DESKTOP = [Environment]::GetFolderPath([Environment+SpecialFolder]::Desktop)
-$env:DOWNLOADS = [Environment]::GetFolderPath([Environment+SpecialFolder]::Downloads)
 $env:TEMP = [Environment]::GetEnvironmentVariable("Temp", [EnvironmentVariableTarget]::User)
 # If so and the current host is a command line, then change to red color 
 # as warning to user that they are operating in an elevated context
@@ -38,13 +37,6 @@ function n      { notepad++ $args }
 function HKLM:  { Set-Location HKLM: }
 function HKCU:  { Set-Location HKCU: }
 function Env:   { Set-Location Env: }
-
-# Creates drive shortcut for Work Folders, if current user account is using it
-if (Test-Path "$env:USERPROFILE\Work Folders")
-{
-    New-PSDrive -Name Work -PSProvider FileSystem -Root "$env:USERPROFILE\Work Folders" -Description "Work Folders"
-    function Work: { Set-Location Work: }
-}
 
 # Set up command prompt and window title. Use UNIX-style convention for identifying 
 # whether user is elevated (root) or not. Window title shows current version of PowerShell
