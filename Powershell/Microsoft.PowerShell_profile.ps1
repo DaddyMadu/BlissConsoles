@@ -296,23 +296,25 @@ cmd /c 'C:\Windows\System32\shutdown.exe /r /f /t 0'
 }
 Function vpn {
 if (Test-Path "$env:temp\dmtmp\DaddyMadu-VPN-VOIP.bat")
-{
+	{
 Write-Output "Lunching DaddyMadu VPN Script...."
 Start-Process -FilePath cmd.exe -ArgumentList "/c $env:temp\dmtmp\DaddyMadu-VPN-VOIP.bat"
-} else {
+	} else {
 Write-Output "File not found!, downloading and lunching DaddyMadu VPN..."
 Invoke-RestMethod 'https://github.com/DaddyMadu/Windows-Optimzier/raw/main/DaddyMadu-VPN-VOIP.bat' -OutFile ($env:temp + '\dmtmp\DaddyMadu-VPN-VOIP.bat')
 Start-Process -FilePath cmd.exe -ArgumentList "/c $env:temp\dmtmp\DaddyMadu-VPN-VOIP.bat"
+	}
 }
 Function dm {
 if (Test-Path "$env:temp\dmtmp\DaddyMadu-VPN-VOIP.bat")
-{
+		{
 Write-Output "Lunching DaddyMadu Windows Script...."
 Start-Process -FilePath cmd.exe -ArgumentList "/c $env:temp\dmtmp\DaddyMadu-Windows-Optimizer.bat"	
 } else {
 Write-Output "File not found!, downloading and lunching DaddyMadu Windows Script..."
 Invoke-RestMethod 'https://github.com/DaddyMadu/Windows-Optimzier/raw/main/DaddyMadu-Windows-Optimizer.bat' -OutFile ($env:temp + '\dmtmp\DaddyMadu-Windows-Optimizer.bat')
 Start-Process -FilePath cmd.exe -ArgumentList "/c $env:temp\dmtmp\DaddyMadu-Windows-Optimizer.bat"
+	}
 }
 Function resetdns {
 Write-Host "Flush DNS + Reset IP...."
