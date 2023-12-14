@@ -206,16 +206,28 @@ function uptime {
 	$uptime = $CurrentDate - $bootuptime
 	Write-Output "Os Uptime --> Days: $($uptime.days), Hours: $($uptime.Hours), Minutes:$($uptime.Minutes), Seconds:$($uptime.Seconds)"
 }
+Function Edit-wingetskip {
+$wingetdonotupdate = ($env:homedrive + '\wingetdonotupdate.txt')
+if (!(Test-Path -Path $wingetdonotupdate -PathType Leaf)) {
+ New-Item -Path $wingetdonotupdate -Force >$null
+ nano $wingetdonotupdate
+ } else {
+ nano $wingetdonotupdate
+ }
+}
 function winget-update-all-except-skippedlist {
+$wingetdonotupdate = ($env:homedrive + '\wingetdonotupdate.txt')
+if (!(Test-Path -Path $wingetdonotupdate -PathType Leaf)) {
+ New-Item -Path $wingetdonotupdate -Force >$null
+} else {
+(Get-Content -path $wingetdonotupdate) | ? {$_.trim() -ne "" } | set-content $wingetdonotupdate
+$dontupdatearray = Get-Content -Path $wingetdonotupdate
+$filterDUA = $dontupdatearray -replace '^|$', "'" -join ','
+}
 # add id to skip the update
 $skipUpdate = @(
-'Microsoft.DotNet.SDK.6',
-'Microsoft.VCRedist.2013.x64',
-'WavesAudio.WavesCentral',
-'Microsoft.Teams.Classic',
-'Microsoft.WindowsSDK'
+$filterDUA
 )
-
 
 # object to be used basically for view only
 class Software {
