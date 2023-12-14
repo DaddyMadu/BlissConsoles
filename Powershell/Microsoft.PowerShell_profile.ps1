@@ -17,6 +17,9 @@ $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = New-Object Security.Principal.WindowsPrincipal $identity
 $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 $env:DOCUMENTS = [Environment]::GetFolderPath([Environment+SpecialFolder]::MyDocuments)
+$env:DESKTOP = [Environment]::GetFolderPath([Environment+SpecialFolder]::Desktop)
+$env:DOWNLOADS = [Environment]::GetFolderPath([Environment+SpecialFolder]::Downloads)
+$env:TEMP = [Environment]::GetEnvironmentVariable("Temp", [EnvironmentVariableTarget]::User)
 # If so and the current host is a command line, then change to red color 
 # as warning to user that they are operating in an elevated context
 # Useful shortcuts for traversing directories
@@ -292,12 +295,24 @@ Write-Output "Rebooting system......"
 cmd /c 'C:\Windows\System32\shutdown.exe /r /f /t 0'
 }
 Function vpn {
+if (Test-Path "$env:temp\dmtmp\DaddyMadu-VPN-VOIP.bat")
+{
 Write-Output "Lunching DaddyMadu VPN Script...."
-Start-Process -FilePath "$env:temp\dmtmp\DaddyMadu-VPN-VOIP.bat"
+Start-Process -FilePath cmd.exe -ArgumentList "/c $env:temp\dmtmp\DaddyMadu-VPN-VOIP.bat"
+} else {
+Write-Output "File not found!, downloading and lunching DaddyMadu VPN..."
+Invoke-RestMethod 'https://github.com/DaddyMadu/Windows-Optimzier/raw/main/DaddyMadu-VPN-VOIP.bat' -OutFile ($env:temp + '\dmtmp\DaddyMadu-VPN-VOIP.bat')
+Start-Process -FilePath cmd.exe -ArgumentList "/c $env:temp\dmtmp\DaddyMadu-VPN-VOIP.bat"
 }
 Function dm {
-Write-Output "Lunching DaddyMadu Script...."
-Start-Process -FilePath "C:\MaduScripts\DaddyMadu-Windows-Optimizer.bat"	
+if (Test-Path "$env:temp\dmtmp\DaddyMadu-VPN-VOIP.bat")
+{
+Write-Output "Lunching DaddyMadu Windows Script...."
+Start-Process -FilePath cmd.exe -ArgumentList "/c $env:temp\dmtmp\DaddyMadu-Windows-Optimizer.bat"	
+} else {
+Write-Output "File not found!, downloading and lunching DaddyMadu Windows Script..."
+Invoke-RestMethod 'https://github.com/DaddyMadu/Windows-Optimzier/raw/main/DaddyMadu-Windows-Optimizer.bat' -OutFile ($env:temp + '\dmtmp\DaddyMadu-Windows-Optimizer.bat')
+Start-Process -FilePath cmd.exe -ArgumentList "/c $env:temp\dmtmp\DaddyMadu-Windows-Optimizer.bat"
 }
 Function resetdns {
 Write-Host "Flush DNS + Reset IP...."
