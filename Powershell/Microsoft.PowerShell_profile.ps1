@@ -222,7 +222,8 @@ if (!(Test-Path -Path $wingetdonotupdate -PathType Leaf)) {
 } else {
 (Get-Content -path $wingetdonotupdate) | ? {$_.trim() -ne "" } | set-content $wingetdonotupdate
 $dontupdatearray = Get-Content -Path $wingetdonotupdate
-$filterDUA = $dontupdatearray -replace '^|$', "'" -join ','
+$unfilterDUA = $dontupdatearray -replace '^|$', "'" -join ',`n`'
+$filterDUA = $unfilterDUA -replace '`n`',"`r`n"
 }
 # add id to skip the update
 $skipUpdate = @(
