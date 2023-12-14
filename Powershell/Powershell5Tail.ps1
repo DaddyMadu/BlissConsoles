@@ -13,7 +13,7 @@ function prompt {
     return prompt;
   }
   $global:ompjob = Start-Job {oh-my-posh --init --shell powershell --config $env:POSH_THEMES_PATH/kushal.omp.json};
-  Write-Host "BC v1.5 Loading Profile in Background..."
+  Write-Host "BC v1.6 Loading Profile in Background..."
   Write-Host -NoNewline "$($executionContext.SessionState.Path.CurrentLocation)".replace($pwd, '~');
   Write-Host -NoNewline " --->";
   return " ";
