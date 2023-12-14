@@ -235,7 +235,7 @@ Function Finished {
       		Set-ItemProperty -Path "HKCU:\Console" -Name "WindowAlpha" -Type DWord -Value 0x000000e8 -Force -ErrorAction SilentlyContinue
 		
  		$ErrorActionPreference = $errpref #restore previous preference
-   	Write-host "BlissConsoles v1.3 installed successfully!, Please restart your terminal to get a Blissed Console ;)"
+   	Write-host "BlissConsoles v1.6 installed successfully!, Please restart your terminal to get a Blissed Console ;)"
       	pause
 }
 
