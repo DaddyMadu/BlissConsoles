@@ -14,7 +14,7 @@ function prompt {
   }
   $ohmyposhluncher = & ([ScriptBlock]::Create((oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\kushal.omp.json" --print) -join "`n"))
   $global:ompjob = Start-Job {$ohmyposhluncher};
-  write-host -ForegroundColor Blue "BC v1.5 Loading `$profile in the background..."
+  write-host -ForegroundColor Blue "BC v1.6 Loading `$profile in the background..."
   Write-Host -ForegroundColor Green -NoNewline "  $($executionContext.SessionState.Path.CurrentLocation) ".replace($HOME, '~');
   Write-Host -ForegroundColor Red -NoNewline "ᓚᘏᗢ"
   return " ";
