@@ -19,6 +19,7 @@ $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administ
 $env:DOCUMENTS = [Environment]::GetFolderPath([Environment+SpecialFolder]::MyDocuments)
 $env:DESKTOP = [Environment]::GetFolderPath([Environment+SpecialFolder]::Desktop)
 $env:TEMP = [Environment]::GetEnvironmentVariable("Temp", [EnvironmentVariableTarget]::User)
+$wingetdonotupdate = ($env:homedrive + '\wingetdonotupdate.txt')
 # If so and the current host is a command line, then change to red color 
 # as warning to user that they are operating in an elevated context
 # Useful shortcuts for traversing directories
@@ -207,7 +208,6 @@ function uptime {
 	Write-Output "Os Uptime --> Days: $($uptime.days), Hours: $($uptime.Hours), Minutes:$($uptime.Minutes), Seconds:$($uptime.Seconds)"
 }
 Function Edit-wingetskip {
-$wingetdonotupdate = ($env:homedrive + '\wingetdonotupdate.txt')
 if (!(Test-Path -Path $wingetdonotupdate -PathType Leaf)) {
  New-Item -Path $wingetdonotupdate -Force >$null
  nano $wingetdonotupdate
@@ -216,20 +216,13 @@ if (!(Test-Path -Path $wingetdonotupdate -PathType Leaf)) {
  }
 }
 function winget-update-all-except-skippedlist {
-$wingetdonotupdate = ($env:homedrive + '\wingetdonotupdate.txt')
 if (!(Test-Path -Path $wingetdonotupdate -PathType Leaf)) {
  New-Item -Path $wingetdonotupdate -Force >$null
 } else {
 (Get-Content -path $wingetdonotupdate) | ? {$_.trim() -ne "" } | set-content $wingetdonotupdate
-$dontupdatearray = Get-Content -Path $wingetdonotupdate
-$unfilterDUA = $dontupdatearray -replace '^|$', "'" -join ',`n`'
-$filterDUA = $unfilterDUA -replace '`n`',"`r`n"
 }
 # add id to skip the update
-$skipUpdate = @(
-$filterDUA
-)
-
+$skipUpdate = @(Get-Content $wingetdonotupdate)
 # object to be used basically for view only
 class Software {
   [string]$Name
