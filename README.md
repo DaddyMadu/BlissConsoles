@@ -56,7 +56,6 @@ HKCU:\
 Env:\
 admin / su / sudo\
 Edit-Profile\
-### unix/linux like commands:
 nano\
 ll\
 dirs\
