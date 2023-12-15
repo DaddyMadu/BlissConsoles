@@ -424,4 +424,3 @@ if (Test-Path($ChocolateyProfile)) {
   Import-Module "$ChocolateyProfile"
 }
 Import-Module PSReadLine;
-Import-Module Terminal-Icons;
