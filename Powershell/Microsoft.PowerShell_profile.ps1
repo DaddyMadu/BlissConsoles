@@ -96,7 +96,6 @@ Set-Alias -Name update-all -Value update
 Set-Alias -Name winget-update -Value winget-update-all-except-skippedlist
 Set-Alias -Name reset -Value reload-profile
 Set-Alias -Name ipinfo -Value get-ipinfo
-Set-Alias -Name nano -Value $EDITOR
 set-alias -name gd -value gotodir
 
 # Make it easy to edit this profile once it's installed
@@ -148,7 +147,7 @@ $EDITOR='notepad++'
     #fallback to notepad since it exists on every windows machine
     $EDITOR='notepad'
 }
-
+Set-Alias -Name nano -Value $EDITOR
 function ll { Get-ChildItem -Path $pwd -File }
 Function update-bliss {
  $CurrentUser = New-Object Security.Principal.WindowsPrincipal $([Security.Principal.WindowsIdentity]::GetCurrent())
