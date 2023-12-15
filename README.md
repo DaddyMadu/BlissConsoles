@@ -47,16 +47,16 @@ this will lunch or download and lunch my windows 10/11 optimizer read more here:
 ### get-ipinfo
 this will get you info about your ip, country, service provider
 ### list of other useful functions :
-md5
-sha1
-sha256
-n
-HKLM:
-HKCU:
-Env:
-admin / su / sudo
-Edit-Profile
-unix/linux like commands:
+md5__
+sha1__
+sha256__
+n__
+HKLM:__
+HKCU:__
+Env:__
+admin / su / sudo__
+Edit-Profile__
+unix/linux like commands:__
 nano
 ll
 dirs
