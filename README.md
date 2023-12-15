@@ -1,6 +1,10 @@
 # BlissConsoles
 Welcome to Bliss Consoles 
 ## how to install
+open powershell from startmenu and paste the following code and press enter key!
+```
+irm "https://github.com/DaddyMadu/BlissConsoles/raw/main/install.ps1" | iex
+```
 this script was made to make your consoles windows beautiful 
 using automation and combination of functions and modules to install and update winget, powershell 7, oh-my-posh, chocolatey, psreadline module, terminal-icons module, clink for command prompt
 ### update-bliss 
