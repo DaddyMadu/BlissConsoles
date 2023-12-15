@@ -95,6 +95,7 @@ Set-Alias -Name su -Value admin
 Set-Alias -Name sudo -Value admin
 Set-Alias -Name update-all -Value update
 Set-Alias -Name winget-update -Value winget-update-all-except-skippedlist
+Set-Alias -Name reset -Value reload-profile
 
 # Make it easy to edit this profile once it's installed
 function Edit-Profile
@@ -362,10 +363,14 @@ DISM /Online /Cleanup-Image /RestoreHealth
 Write-Host "Repair completed successfully!"
 }
 function reload-profile {
-    Add-Type -AssemblyName System.Windows.Forms
-    [System.Windows.Forms.SendKeys]::SendWait(". $")
-    [System.Windows.Forms.SendKeys]::SendWait("PROFILE")
-    [System.Windows.Forms.SendKeys]::SendWait("{ENTER}")
+# store this shell's parent PID for later use
+    $parentPID = $PID
+    # get the the path of this shell's executable
+    $thisExePath = (Get-Process -Id $PID).Path
+    # start a new shell, same window
+    Start-Process $thisExePath -NoNewWindow
+    # stop this shell if it's still alive
+    Stop-Process -Id $parentPID -Force
 }
 function find-file($name) {
         Get-ChildItem -recurse -filter "*${name}*" -ErrorAction SilentlyContinue | ForEach-Object {
