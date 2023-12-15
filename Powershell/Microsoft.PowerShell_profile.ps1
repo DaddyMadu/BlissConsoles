@@ -89,13 +89,15 @@ function admin
     }
 }
 
-# Set UNIX-like aliases for the admin command, so sudo <command> will run the command
-# with elevated rights. 
+# All set Alias here
 Set-Alias -Name su -Value admin
 Set-Alias -Name sudo -Value admin
 Set-Alias -Name update-all -Value update
 Set-Alias -Name winget-update -Value winget-update-all-except-skippedlist
 Set-Alias -Name reset -Value reload-profile
+Set-Alias -Name ipinfo -Value get-ipinfo
+Set-Alias -Name nano -Value $EDITOR
+set-alias -name gd -value gotodir
 
 # Make it easy to edit this profile once it's installed
 function Edit-Profile
@@ -146,8 +148,6 @@ $EDITOR='notepad++'
     #fallback to notepad since it exists on every windows machine
     $EDITOR='notepad'
 }
-Set-Alias -Name nano -Value $EDITOR
-
 
 function ll { Get-ChildItem -Path $pwd -File }
 Function update-bliss {
@@ -203,6 +203,10 @@ $FilteredJSON.asn_org |
 		}
     }
 $FilteredJSON
+}
+function testspeed {
+winget install Ookla.Speedtest.CLI --silent --no-upgrade -e --accept-source-agreements --accept-package-agreements
+speedtest 
 }
 function uptime {
 	$bootuptime = (Get-CimInstance -ClassName Win32_OperatingSystem).LastBootUpTime
@@ -420,7 +424,6 @@ cd $dir
 cd (split-path -path $dir)
 }
 }
-set-alias -name gd -value gotodir
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path($ChocolateyProfile)) {
   Import-Module "$ChocolateyProfile"
