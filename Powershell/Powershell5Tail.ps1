@@ -21,8 +21,9 @@ function prompt {
     [console]::InputEncoding = [console]::OutputEncoding = New-Object System.Text.UTF8Encoding
     return prompt;
   }
-  $global:ompjob = Start-Job {oh-my-posh --init --shell powershell --config $env:POSH_THEMES_PATH/kushal.omp.json};
-  Write-Host "BC v1.6 Loading Profile in Background..."
+  $ohmyposhluncher = & ([ScriptBlock]::Create((oh-my-posh init powershell --config "$env:POSH_THEMES_PATH\kushal.omp.json" --print) -join "`n")); Import-Module Terminal-Icons
+  $global:ompjob = Start-Job {$ohmyposhluncher};
+  Write-Host "BC v1.7 Loading Profile in Background..."
     Write-Host '            _________________' -ForegroundColor "Red";
 Write-Host '         < Welcome' $Env:UserName'!! >' -ForegroundColor "Green";
 Write-Host '            -----------------' -ForegroundColor "Red";
