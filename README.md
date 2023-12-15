@@ -56,7 +56,7 @@ HKCU:\
 Env:\
 admin / su / sudo\
 Edit-Profile\
-unix/linux like commands:\
+### unix/linux like commands:
 nano\
 ll\
 dirs\
@@ -70,4 +70,4 @@ which\
 export\
 pkill\
 pgrep\
-gotodir / gd\
+gotodir / gd
