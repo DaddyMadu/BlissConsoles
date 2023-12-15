@@ -164,24 +164,26 @@ Exit
     }
 }
 Function disable-psupdates {
- New-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\donotupdate.txt') -ItemType File -Force
- New-Item -Path ($env:DOCUMENTS + '\Powershell\donotupdate.txt') -ItemType File -Force	
+ New-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\donotupdate.txt') -ItemType File -Force -ErrorAction SilentlyContinue >$null
+ New-Item -Path ($env:DOCUMENTS + '\Powershell\donotupdate.txt') -ItemType File -Force -ErrorAction SilentlyContinue >$null
+Remove-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -Force -ErrorAction SilentlyContinue >$null
+ Remove-Item -Path ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -Force -ErrorAction SilentlyContinue >$null
 }
 Function enable-psupdates {
- Remove-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\donotupdate.txt') -Force
- Remove-Item -Path ($env:DOCUMENTS + '\Powershell\donotupdate.txt') -Force	
+ Remove-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell\donotupdate.txt') -Force -ErrorAction SilentlyContinue >$null
+ Remove-Item -Path ($env:DOCUMENTS + '\Powershell\donotupdate.txt') -Force -ErrorAction SilentlyContinue >$null
 }
 Function disable-clinkupdate {
- New-Item -Path (${env:ProgramFiles(x86)} + '\clink\donotupdate.txt') -ItemType File -Force
+ New-Item -Path (${env:ProgramFiles(x86)} + '\clink\donotupdate.txt') -ItemType File -Force -ErrorAction SilentlyContinue >$null
 }
 Function enable-clinkupdate {
- Remove-Item -Path (${env:ProgramFiles(x86)} + '\clink\donotupdate.txt') -Force
+ Remove-Item -Path (${env:ProgramFiles(x86)} + '\clink\donotupdate.txt') -Force -ErrorAction SilentlyContinue >$null
 }
 Function disable-terminalupdate {
- New-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\donotupdate.txt') -ItemType File -Force
+ New-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\donotupdate.txt') -ItemType File -Force -ErrorAction SilentlyContinue >$null
 }
 Function enable-terminalupdate {
- Remove-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\donotupdate.txt') -Force
+ Remove-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\donotupdate.txt') -Force -ErrorAction SilentlyContinue >$null
 }
 Function get-ipinfo {
  $InfoFromJSON = Invoke-WebRequest -URI https://ifconfig.co/json | Select -expand Content | ConvertFrom-Json
