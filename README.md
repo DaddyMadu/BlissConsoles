@@ -8,7 +8,7 @@ irm "https://github.com/DaddyMadu/BlissConsoles/raw/main/install.ps1" | iex
 this script was made to make your consoles windows beautiful 
 using automation and combination of functions and modules to install and update winget, powershell 7, oh-my-posh, chocolatey, psreadline module, terminal-icons module, clink for command prompt
 ### update-bliss 
- this script is can self update itself and all installed modules, scripts, winget, choco, windows terminal setting file, clink lua file, powershell profiles for version 5/7 to thier latest versions.
+ this script can self update itself and all installed modules, scripts, winget, choco, windows terminal setting file, clink lua file, powershell profiles for version 5/7 to thier latest versions.
 using update-bliss command it will backup powershell profiles if found under the name profilebackup.ps1 so if you want get back to it at any time you can!
 setting one theme only to rule them all "One Half Dark", from powershell 5/7, windows terminal to cmd!
 using the following switchs you can enable/disable updates to specific parts of the script :
@@ -27,8 +27,8 @@ this command will use winget to update every application installed in your syste
 ### Edit-wingetskip / nano $wingetskipupdate
 this will create wingetskipupdate.txt file in your systemdrive and from there you can add winget packages id that you want winget update to skip each time you use update or winget-update commands 
 kindly know you need to add 1 winget id per line, exp:
-powershell
-gog.galaxy
+powershell\
+gog.galaxy\
 etc
 ### reset
 will reset you current powershell session and reload your profile 
