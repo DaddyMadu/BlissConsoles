@@ -26,7 +26,7 @@ enable-terminalupdate will make sure each time you use update-bliss terminal set
 this command will use winget to update every application installed in your system if avaliable exept the skipped list that you can define, it will also update every installed app via chocolatey.
 ### Edit-wingetskip / nano $wingetskipupdate
 this will create wingetskipupdate.txt file in your systemdrive and from there you can add winget packages id that you want winget update to skip each time you use update or winget-update commands 
-kindly know you need to add 1 winget id per line, exp:
+kindly know you need to add 1 winget id per line, exp:\
 powershell\
 gog.galaxy\
 etc
