@@ -441,7 +441,7 @@ $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path($ChocolateyProfile)) {
   Import-Module "$ChocolateyProfile"
 }
-Function create-extraprofile {
+Function enable-extraprofile {
 	if (!(Test-Path -Path $extraprofile -PathType Leaf)) {
 		New-Item -Path $extraprofile -ItemType File -Force -ErrorAction SilentlyContinue >$null
 		Write-output "Extra profile is created, please use: n `$extraprofile to edit it."
@@ -449,6 +449,7 @@ Function create-extraprofile {
 		Write-output "File already exist, please use: n `$extraprofile to edit it."
 	}
 }
+
 if (Test-Path -Path $extraprofile -PathType Leaf) {
 . $extraprofile
 }
