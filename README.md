@@ -30,10 +30,13 @@ kindly know you need to add 1 winget id per line, exp:\
 powershell\
 gog.galaxy\
 etc
+### create-extraprofile
+this command will create a ps file in your documents folder and include whatevery you wrote in this file into your main ps profile so it wont get overwritten each time you run update-bliss command 
+to edit your extraprofile file just type: nano $extraprofile and start adding function and commands as you want!
 ### reset
 will reset you current powershell session and reload your profile 
 ### reboot
-will restart your system
+will reboot your system instantly!
 ### vpn
 will download and lunch my vpn script which grabs vpngate servers and add it your windows vpn and made aconnection to that server by default it will make the vpn route only voip traffic via vpn but you can press c at the end of script to make it system global.
 ### cleartemp
@@ -46,7 +49,7 @@ this will trigger a sequance of commands to fix and repair your system using mic
 this will lunch or download and lunch my windows 10/11 optimizer read more here: https://github.com/DaddyMadu/Windows-Optimzier 
 ### get-ipinfo
 this will get you info about your ip, country, service provider
-### list of other useful functions :
+### list of other useful functions linux like :
 md5\
 sha1\
 sha256\
