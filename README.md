@@ -30,9 +30,9 @@ kindly know you need to add 1 winget id per line, exp:\
 powershell\
 gog.galaxy\
 etc
-### create-extraprofile
+### enable-extraprofile
 this command will create a ps file in your documents folder and include whatevery you wrote in this file into your main ps profile so it wont get overwritten each time you run update-bliss command 
-to edit your extraprofile file just type: nano $extraprofile and start adding function and commands as you want!
+to edit your extraprofile file just type: nano $extraprofile and start adding function and commands as you want, to delete it just rm $extraprofile !
 ### reset
 will reset you current powershell session and reload your profile 
 ### reboot
