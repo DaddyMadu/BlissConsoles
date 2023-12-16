@@ -20,6 +20,7 @@ $env:DOCUMENTS = [Environment]::GetFolderPath([Environment+SpecialFolder]::MyDoc
 $env:DESKTOP = [Environment]::GetFolderPath([Environment+SpecialFolder]::Desktop)
 $env:TEMP = [Environment]::GetEnvironmentVariable("Temp", [EnvironmentVariableTarget]::User)
 $wingetskipupdate = ($env:homedrive + '\wingetskipupdate.txt')
+$extraprofile = ($env:DOCUMENTS + '\ExtraProfile.ps1')
 # If so and the current host is a command line, then change to red color 
 # as warning to user that they are operating in an elevated context
 # Useful shortcuts for traversing directories
@@ -327,7 +328,6 @@ cmd /c 'netsh int ip reset 2>nul'
 cmd /c 'ipconfig /release 2>nul'
 cmd /c 'ipconfig /flushdns 2>nul'
 cmd /c 'ipconfig /renew 2>nul'
-Get-NetAdapter -Physical | ForEach-Object { Set-DnsClientServerAddress $_.Name -ServerAddresses ('108.61.209.16','') }
 cmd /c 'echo Flush DNS + IP Reset Completed Successfully!'
 }
 Function cleartemp {
@@ -355,7 +355,9 @@ $ErrorActionPreference = $errpref #restore previous preference
 cmd /c 'del /f /s /q %userprofile%\recent\*.* 2>nul'
 cmd /c 'del /f /s /q %windir%\Temp\*.* 2>nul'
 choco-cleaner
+if (Test-Path -Path (${Env:ProgramFiles(x86)} + '\Wise\Wise Registry Cleaner\WiseRegCleaner.exe') -PathType Leaf) {
 cmd /c '"%systemdrive%\Program Files (x86)\Wise\Wise Registry Cleaner\WiseRegCleaner.exe" -a -safe'
+}
 cmd /c 'echo Temp folders Cleared Successfully!'
 }
 function repair {
@@ -395,8 +397,20 @@ function grep($regex, $dir) {
         }
         $input | select-string $regex
 }
-function touch($file) {
-        "" | Out-File $file -Encoding ASCII
+function touch {
+         $file = $args[0]
+    if($file -eq $null) {
+        throw "No filename supplied"
+    }
+
+    if(Test-Path $file)
+    {
+        (Get-ChildItem $file).LastWriteTime = Get-Date
+    }
+    else
+    {
+        Add-Content $file $null
+    }
 }
 function df {
         get-volume
@@ -426,5 +440,16 @@ cd (split-path -path $dir)
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path($ChocolateyProfile)) {
   Import-Module "$ChocolateyProfile"
+}
+Function create-extraprofile {
+	if (!(Test-Path -Path $extraprofile -PathType Leaf)) {
+		New-Item -Path $extraprofile -ItemType File -Force -ErrorAction SilentlyContinue >$null
+		Write-output "Extra profile is created, please use: n `$extraprofile to edit it."
+	} else {
+		Write-output "File already exist, please use: n `$extraprofile to edit it."
+	}
+}
+if (Test-Path -Path $extraprofile -PathType Leaf) {
+. $extraprofile
 }
 Import-Module PSReadLine;
