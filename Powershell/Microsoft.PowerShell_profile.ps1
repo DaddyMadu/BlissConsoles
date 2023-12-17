@@ -351,6 +351,8 @@ cmd /c 'del /f /s /q %windir%\*.bak 2>nul'
 cmd /c 'del /f /s /q %windir%\prefetch\*.* 2>nul'
 cmd /c 'del /f /q %userprofile%\cookies\*.* 2>nul'
 cmd /c 'del /f /q %userprofile%\recent\*.* 2>nul'
+Remove-Item "$($env:USERPROFILE)\AppData\Local\NVIDIA\GLCache\*" -recurse -Force -ErrorAction SilentlyContinue >$null
+Remove-Item "$($env:USERPROFILE)\AppData\LocalLow\NVIDIA\PerDriverVersion\DXCache\*" -recurse -Force -ErrorAction SilentlyContinue >$null
 cmd /c 'del /f /s /q %userprofile%\Local Settings\Temporary Internet Files\*.* 2>nul'
 $errpref = $ErrorActionPreference #save actual preference
 $ErrorActionPreference = "silentlycontinue"
