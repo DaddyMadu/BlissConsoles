@@ -90,9 +90,9 @@ function admin {
 	if ($currentexename -eq "powershell.exe") {
 		if ($args.Count -gt 0) {   
        $argList = "& { $args }"
-       Start-Process "$PSHOME\powershell.exe" -Verb RunAs "-NoExit -Command $argList"
+       Start-Process "$PSHOME\powershell.exe" -Verb RunAs "-Command $argList"
     } else {
-       Start-Process "$PSHOME\powershell.exe" -Verb RunAs "-NoExit"
+       Start-Process "$PSHOME\powershell.exe" -Verb RunAs
 			}
 		}
 	}
