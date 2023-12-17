@@ -19,7 +19,7 @@ $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administ
 $env:DOCUMENTS = [Environment]::GetFolderPath([Environment+SpecialFolder]::MyDocuments)
 $env:DESKTOP = [Environment]::GetFolderPath([Environment+SpecialFolder]::Desktop)
 $env:TEMP = [Environment]::GetEnvironmentVariable("Temp", [EnvironmentVariableTarget]::User)
-$wingetskipupdate = ($env:homedrive + '\wingetskipupdate.txt')
+$wingetskipupdate = ($env:DOCUMENTS + '\wingetskipupdate.txt')
 $extraprofile = ($env:DOCUMENTS + '\ExtraProfile.ps1')
 # If so and the current host is a command line, then change to red color 
 # as warning to user that they are operating in an elevated context
