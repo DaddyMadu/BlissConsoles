@@ -349,13 +349,13 @@ cmd /c 'del /f /s /q %systemdrive%\*.gid 2>nul'
 cmd /c 'del /f /s /q %systemdrive%\*.chk 2>nul'
 cmd /c 'del /f /s /q %systemdrive%\*.old 2>nul'
 cmd /c 'del /f /s /q %windir%\*.bak 2>nul'
-Remove-Item "$($env:HOMEDRIVE)\`$Recycle.Bin\*" -recurse -Force 2>$null
-Remove-Item "$($env:HOMEDRIVE)\recycled\*" -recurse -Force 2>$null
-Remove-Item "$($env:SYSTEMROOT)\prefetch\*" -recurse -Force 2>$null
-Remove-Item "$($env:USERPROFILE)\cookies\*" -recurse -Force 2>$null
-Remove-Item "$($env:USERPROFILE)\recent\*" -recurse -Force 2>$null
-Remove-Item "$($env:USERPROFILE)\Local Settings\Temporary Internet Files\*" -recurse -Force 2>$null
-Remove-Item "$($env:SYSTEMROOT)\Temp\*" -recurse -Force 2>$null
+Remove-Item "$env:HOMEDRIVE\`$Recycle.Bin\*" -recurse -Force 2>$null
+Remove-Item "$env:HOMEDRIVE\recycled\*" -recurse -Force 2>$null
+Remove-Item "$env:SYSTEMROOT\prefetch\*" -recurse -Force 2>$null
+Remove-Item "$env:USERPROFILE\cookies\*" -recurse -Force 2>$null
+Remove-Item "$env:USERPROFILE\recent\*" -recurse -Force 2>$null
+Remove-Item "$env:USERPROFILE\Local Settings\Temporary Internet Files\*" -recurse -Force 2>$null
+Remove-Item "$env:SYSTEMROOT\Temp\*" -recurse -Force 2>$null
 Get-ChildItem -Path "$env:temp" -Exclude "dmtmp" | foreach ($_) {
        "CLEANING :" + $_.fullname
        Remove-Item $_.fullname -Force -Recurse
