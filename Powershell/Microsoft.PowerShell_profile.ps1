@@ -339,16 +339,16 @@ cmd /c 'ipconfig /renew 2>nul'
 cmd /c 'echo Flush DNS + IP Reset Completed Successfully!'
 }
 Function cleartemp {
-write-output "echo Clearing Temp folders...."
-remove-Item ($($env:HOMEDRIVE) + '\*') -recurse -include *.tmp -force 2>$null
-remove-Item ($($env:HOMEDRIVE) + '\*') -recurse -include *._mp -force 2>$null
-remove-Item ($($env:HOMEDRIVE) + '\*') -recurse -include *.log -force 2>$null
-remove-Item ($($env:HOMEDRIVE) + '\*') -recurse -include *.gid -force 2>$null
-remove-Item ($($env:HOMEDRIVE) + '\*') -recurse -include *.chk -force 2>$null
-remove-Item ($($env:HOMEDRIVE) + '\*') -recurse -include *.old -force 2>$null
+write-output "Clearing Temp folders...."
+cmd /c 'del /f /s /q %systemdrive%\*.tmp 2>nul'
+cmd /c 'del /f /s /q %systemdrive%\*._mp 2>nul'
+cmd /c 'del /f /s /q %systemdrive%\*.log 2>nul'
+cmd /c 'del /f /s /q %systemdrive%\*.gid 2>nul'
+cmd /c 'del /f /s /q %systemdrive%\*.chk 2>nul'
+cmd /c 'del /f /s /q %systemdrive%\*.old 2>nul'
+cmd /c 'del /f /s /q %windir%\*.bak 2>nul'
 Remove-Item ($($env:HOMEDRIVE) + '\$Recycle.Bin\*') -recurse -Force 2>$null
 Remove-Item ($($env:HOMEDRIVE) + '\recycled\*') -recurse -Force 2>$null
-remove-Item ($($env:SYSTEMROOT) + '\*') -recurse -include *.bak -force 2>$null
 Remove-Item ($($env:SYSTEMROOT) + '\prefetch\*') -recurse -Force 2>$null
 Remove-Item ($($env:USERPROFILE) + '\cookies\*') -recurse -Force 2>$null
 Remove-Item ($($env:USERPROFILE) + '\recent\*') -recurse -Force 2>$null
@@ -371,9 +371,9 @@ if ($answer -eq 'y') {
 Remove-Item "$($env:USERPROFILE)\AppData\Local\NVIDIA\GLCache\*" -recurse -Force -ErrorAction SilentlyContinue >$null
 Remove-Item "$($env:USERPROFILE)\AppData\LocalLow\NVIDIA\PerDriverVersion\DXCache\*" -recurse -Force -ErrorAction SilentlyContinue >$null
 } else {
-write-output "skipping nvidia cache..."
+write-output "Skipping nvidia cache..."
 	}
-write-output "echo Temp folders Cleared Successfully!"
+write-output "Temp folders Cleared Successfully!"
 }
 function repair {
 Write-Host "Reparing windows system files...."
