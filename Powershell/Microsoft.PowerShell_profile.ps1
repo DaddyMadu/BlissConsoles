@@ -340,6 +340,8 @@ cmd /c 'echo Flush DNS + IP Reset Completed Successfully!'
 }
 Function cleartemp {
 write-output "Clearing Temp folders...."
+$errpref = $ErrorActionPreference #save actual preference
+$ErrorActionPreference = "silentlycontinue"
 cmd /c 'del /f /s /q %systemdrive%\*.tmp 2>nul'
 cmd /c 'del /f /s /q %systemdrive%\*._mp 2>nul'
 cmd /c 'del /f /s /q %systemdrive%\*.log 2>nul'
@@ -354,14 +356,11 @@ Remove-Item "$($env:USERPROFILE)\cookies\*" -recurse -Force 2>$null
 Remove-Item "$($env:USERPROFILE)\recent\*" -recurse -Force 2>$null
 Remove-Item "$($env:USERPROFILE)\Local Settings\Temporary Internet Files\*" -recurse -Force 2>$null
 Remove-Item "$($env:SYSTEMROOT)\Temp\*" -recurse -Force 2>$null
-$errpref = $ErrorActionPreference #save actual preference
-$ErrorActionPreference = "silentlycontinue"
 Get-ChildItem -Path "$env:temp" -Exclude "dmtmp" | foreach ($_) {
        "CLEANING :" + $_.fullname
        Remove-Item $_.fullname -Force -Recurse
        "CLEANED... :" + $_.fullname
    }
-$ErrorActionPreference = $errpref #restore previous preference
 choco-cleaner
 if (Test-Path -Path (${Env:ProgramFiles(x86)} + '\Wise\Wise Registry Cleaner\WiseRegCleaner.exe') -PathType Leaf) {
 cmd /c '"%systemdrive%\Program Files (x86)\Wise\Wise Registry Cleaner\WiseRegCleaner.exe" -a -safe'
@@ -370,6 +369,7 @@ $answer = read-host "Do you want to clear Nvidia Shader Cache? you need to do it
 if ($answer -eq 'y') { 
 Remove-Item "$($env:USERPROFILE)\AppData\Local\NVIDIA\GLCache\*" -recurse -Force 2>$null
 Remove-Item "$($env:USERPROFILE)\AppData\LocalLow\NVIDIA\PerDriverVersion\DXCache\*" -recurse -Force 2>$null
+$ErrorActionPreference = $errpref #restore previous preference
 } else {
 write-output "Skipping nvidia cache..."
 	}
