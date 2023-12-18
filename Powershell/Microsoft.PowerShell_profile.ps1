@@ -339,21 +339,21 @@ cmd /c 'ipconfig /renew 2>nul'
 cmd /c 'echo Flush DNS + IP Reset Completed Successfully!'
 }
 Function cleartemp {
-cmd /c 'echo Clearing Temp folders....'
-cmd /c 'del /f /s /q %systemdrive%\*.tmp 2>nul'
-cmd /c 'del /f /s /q %systemdrive%\*._mp 2>nul'
-cmd /c 'del /f /s /q %systemdrive%\*.log 2>nul'
-cmd /c 'del /f /s /q %systemdrive%\*.gid 2>nul'
-cmd /c 'del /f /s /q %systemdrive%\*.chk 2>nul'
-cmd /c 'del /f /s /q %systemdrive%\*.old 2>nul'
-cmd /c 'del /f /s /q %systemdrive%\recycled\*.* 2>nul'
-cmd /c 'del /f /s /q %windir%\*.bak 2>nul'
-cmd /c 'del /f /s /q %windir%\prefetch\*.* 2>nul'
-cmd /c 'del /f /q %userprofile%\cookies\*.* 2>nul'
-cmd /c 'del /f /q %userprofile%\recent\*.* 2>nul'
-Remove-Item "$($env:USERPROFILE)\AppData\Local\NVIDIA\GLCache\*" -recurse -Force -ErrorAction SilentlyContinue >$null
-Remove-Item "$($env:USERPROFILE)\AppData\LocalLow\NVIDIA\PerDriverVersion\DXCache\*" -recurse -Force -ErrorAction SilentlyContinue >$null
-cmd /c 'del /f /s /q %userprofile%\Local Settings\Temporary Internet Files\*.* 2>nul'
+write-output "echo Clearing Temp folders...."
+remove-Item ($($env:HOMEDRIVE) + '\*') -recurse -include *.tmp -force 2>$null
+remove-Item ($($env:HOMEDRIVE) + '\*') -recurse -include *._mp -force 2>$null
+remove-Item ($($env:HOMEDRIVE) + '\*') -recurse -include *.log -force 2>$null
+remove-Item ($($env:HOMEDRIVE) + '\*') -recurse -include *.gid -force 2>$null
+remove-Item ($($env:HOMEDRIVE) + '\*') -recurse -include *.chk -force 2>$null
+remove-Item ($($env:HOMEDRIVE) + '\*') -recurse -include *.old -force 2>$null
+Remove-Item ($($env:HOMEDRIVE) + '\$Recycle.Bin\*') -recurse -Force 2>$null
+Remove-Item ($($env:HOMEDRIVE) + '\recycled\*') -recurse -Force 2>$null
+remove-Item ($($env:SYSTEMROOT) + '\*') -recurse -include *.bak -force 2>$null
+Remove-Item ($($env:SYSTEMROOT) + '\prefetch\*') -recurse -Force 2>$null
+Remove-Item ($($env:USERPROFILE) + '\cookies\*') -recurse -Force 2>$null
+Remove-Item ($($env:USERPROFILE) + '\recent\*') -recurse -Force 2>$null
+Remove-Item ($($env:USERPROFILE) + '\Local Settings\Temporary Internet Files\*') -recurse -Force 2>$null
+Remove-Item ($($env:SYSTEMROOT) + '\Temp\*') -recurse -Force 2>$null
 $errpref = $ErrorActionPreference #save actual preference
 $ErrorActionPreference = "silentlycontinue"
 Get-ChildItem -Path "$env:temp" -Exclude "dmtmp" | foreach ($_) {
@@ -362,13 +362,18 @@ Get-ChildItem -Path "$env:temp" -Exclude "dmtmp" | foreach ($_) {
        "CLEANED... :" + $_.fullname
    }
 $ErrorActionPreference = $errpref #restore previous preference
-cmd /c 'del /f /s /q %userprofile%\recent\*.* 2>nul'
-cmd /c 'del /f /s /q %windir%\Temp\*.* 2>nul'
 choco-cleaner
 if (Test-Path -Path (${Env:ProgramFiles(x86)} + '\Wise\Wise Registry Cleaner\WiseRegCleaner.exe') -PathType Leaf) {
 cmd /c '"%systemdrive%\Program Files (x86)\Wise\Wise Registry Cleaner\WiseRegCleaner.exe" -a -safe'
 }
-cmd /c 'echo Temp folders Cleared Successfully!'
+$answer = read-host "Do you want to clear Nvidia Shader Cache? you need to do it once every 3 months, (y or n)? "
+if ($answer -eq 'y') { 
+Remove-Item "$($env:USERPROFILE)\AppData\Local\NVIDIA\GLCache\*" -recurse -Force -ErrorAction SilentlyContinue >$null
+Remove-Item "$($env:USERPROFILE)\AppData\LocalLow\NVIDIA\PerDriverVersion\DXCache\*" -recurse -Force -ErrorAction SilentlyContinue >$null
+} else {
+write-output "skipping nvidia cache..."
+	}
+write-output "echo Temp folders Cleared Successfully!"
 }
 function repair {
 Write-Host "Reparing windows system files...."
