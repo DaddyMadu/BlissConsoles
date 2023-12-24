@@ -323,14 +323,14 @@ Start-Process -Verb RunAs cmd.exe -ArgumentList '/c "%temp%\dmtmp\DaddyMadu-VPN-
 	}
 }
 Function dm {
-if (Test-Path "$env:temp\dmtmp\DaddyMadu-Windows-Optimizer.bat")
+if (Test-Path "$env:temp\dmtmp\DaddyMadu-Luncher.bat")
 		{
 Write-Output "Lunching DaddyMadu Windows Script...."
-Start-Process -Verb RunAs cmd.exe -ArgumentList '/c "%temp%\dmtmp\DaddyMadu-Windows-Optimizer.bat"'
+Start-Process -Verb RunAs cmd.exe -ArgumentList '/c "%temp%\dmtmp\DaddyMadu-Luncher.bat"'
 } else {
 Write-Output "File not found!, downloading and lunching DaddyMadu Windows Script..."
-Invoke-RestMethod 'https://github.com/DaddyMadu/Windows-Optimzier/raw/main/DaddyMadu-Windows-Optimizer.bat' -OutFile ($env:temp + '\dmtmp\DaddyMadu-Windows-Optimizer.bat')
-Start-Process -Verb RunAs cmd.exe -ArgumentList '/c "%temp%\dmtmp\DaddyMadu-Windows-Optimizer.bat"'
+Invoke-RestMethod 'https://github.com/DaddyMadu/Windows-Optimzier/raw/main/DaddyMadu-Windows-Optimizer.bat' -OutFile ($env:temp + '\dmtmp\DaddyMadu-Luncher.bat')
+Start-Process -Verb RunAs cmd.exe -ArgumentList '/c "%temp%\dmtmp\DaddyMadu-Luncher.bat"'
 	}
 }
 Function resetdns {
