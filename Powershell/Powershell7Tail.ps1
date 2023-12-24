@@ -1,3 +1,12 @@
+$nficon=[PSCustomObject]@{
+'/\/'=[char]0xf489
+}
+$nfcleanicon = $nficon.'/\/'
+
+$nficon2=[PSCustomObject]@{
+'/\/\'=[char]0xe7a2
+}
+$nfcleanicon2 = $nficon2.'/\/\'
 function prompt {
   if (Test-Path variable:global:ompjob) {
     Receive-Job -Wait -AutoRemoveJob -Job $global:ompjob | Invoke-Expression;
@@ -31,7 +40,7 @@ Write-Host '                 "*$bd$$$$       "#$$$$$$$$$$bd$P' -ForegroundColor 
 Write-Host '                      """"          """"""""""" ' -ForegroundColor Red
 Write-Host ' '
 Write-Host ' '
-  Write-Host -ForegroundColor Green -NoNewline "  $($executionContext.SessionState.Path.CurrentLocation) ".replace($HOME, '~');
-  Write-Host -ForegroundColor Red -NoNewline "ᓚᘏᗢ"
+  Write-Host -ForegroundColor Green -NoNewline $nfcleanicon "$($executionContext.SessionState.Path.CurrentLocation) ".replace($HOME, '~');
+  Write-Host -ForegroundColor Red -NoNewline " $nfcleanicon2"
   return " ";
 }
