@@ -21,6 +21,10 @@ $env:DESKTOP = [Environment]::GetFolderPath([Environment+SpecialFolder]::Desktop
 $env:TEMP = [Environment]::GetEnvironmentVariable("Temp", [EnvironmentVariableTarget]::User)
 $wingetskipupdate = ($env:DOCUMENTS + '\wingetskipupdate.txt')
 $extraprofile = ($env:DOCUMENTS + '\ExtraProfile.ps1')
+#creating folder in temp for windows optimzer script & vpn
+if (!(Test-Path -Path $env:temp\dmtmp)) {
+New-Item -Path $env:temp\dmtmp -Force | Out-Null
+}
 # If so and the current host is a command line, then change to red color 
 # as warning to user that they are operating in an elevated context
 # Useful shortcuts for traversing directories
