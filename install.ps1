@@ -127,12 +127,12 @@ if ($fontFamilies -notcontains "CaskaydiaCove NF") {
 #update consoles profiles
 Function updatepsprofiles {
   Write-Output "Updating powershell profiles..."
-  if (!(Test-Path -Path ($env:DOCUMENTS + '\WindowsPowerShell\donotupdate.txt') -PathType Leaf)) {
-     if (!(Test-Path -Path ($env:DOCUMENTS + '\WindowsPowerShell'))) {
+   if (!(Test-Path -Path ($env:DOCUMENTS + '\WindowsPowerShell'))) {
   		Write-Output "Creating powershell 5 profile folder..."
                 New-Item -Path ($env:DOCUMENTS + '\WindowsPowerShell') -ItemType "directory"
                 }
-            elseif (!(Test-Path -Path ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -PathType Leaf)) {
+  if (!(Test-Path -Path ($env:DOCUMENTS + '\WindowsPowerShell\donotupdate.txt') -PathType Leaf)) {
+	              if (!(Test-Path -Path ($env:DOCUMENTS + '\WindowsPowerShell\profilebackup.ps1') -PathType Leaf)) {
 	    	Write-Output "Downloading powershell 5 profile and backing up old one if avaliable..."
       		$errpref = $ErrorActionPreference #save actual preference
 		$ErrorActionPreference = "silentlycontinue"
@@ -145,15 +145,15 @@ Function updatepsprofiles {
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
 				 Invoke-WebRequest 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Powershell5Tail.ps1' | Select-Object -ExpandProperty Content | Add-Content -Path ($env:DOCUMENTS + '\WindowsPowerShell\Microsoft.PowerShell_profile.ps1')
               	}
-	      } else {
+  } else {
 	Write-Output "Donotupdate file found in $env:DOCUMENTS\WindowsPowerShell\donotupdate.txt, skipping update powershell 5 profile..."
        }
-   if (!(Test-Path -Path ($env:DOCUMENTS + '\Powershell\donotupdate.txt') -PathType Leaf)) {
-       if (!(Test-Path -Path ($env:DOCUMENTS + '\Powershell'))) {
+	   if (!(Test-Path -Path ($env:DOCUMENTS + '\Powershell'))) {
    		Write-Output "Creating powershell 7 profile folder..."
                 New-Item -Path ($env:DOCUMENTS + '\Powershell') -ItemType "directory" >$null
                 }
-            elseif (!(Test-Path -Path ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -PathType Leaf)) {
+   if (!(Test-Path -Path ($env:DOCUMENTS + '\Powershell\donotupdate.txt') -PathType Leaf)) {
+	    if (!(Test-Path -Path ($env:DOCUMENTS + '\Powershell\profilebackup.ps1') -PathType Leaf)) {
 	    	 Write-Output "Downloading powershell 7 profile and backing up old one if avaliable..."
        		 $errpref = $ErrorActionPreference #save actual preference
 		 $ErrorActionPreference = "silentlycontinue"
@@ -166,7 +166,8 @@ Function updatepsprofiles {
                  Invoke-RestMethod 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Microsoft.PowerShell_profile.ps1' -OutFile ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
 				 Invoke-WebRequest 'https://github.com/DaddyMadu/BlissConsoles/raw/main/Powershell/Powershell7Tail.ps1' | Select-Object -ExpandProperty Content | Add-Content -Path ($env:DOCUMENTS + '\Powershell\Microsoft.PowerShell_profile.ps1')
               	}
-	      } else {
+	    
+       } else {
 	Write-Output "Donotupdate file found in $env:DOCUMENTS\Powershell\donotupdate.txt, skipping update powershell 7 profile..."
        }
    if (!(Test-Path -Path (${env:ProgramFiles(x86)} + '\clink\donotupdate.txt') -PathType Leaf)) {
