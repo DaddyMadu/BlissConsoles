@@ -15,7 +15,7 @@ Start-Process Powershell -Argumentlist '-ExecutionPolicy RemoteSigned -NoProfile
 Exit
     }
 }
-$bcversion = v1.8
+$bcversion = "v1.8"
 RequireAdmin
 cls
 $host.ui.RawUI.WindowTitle = "BlissConsoles installer $bcversion"
