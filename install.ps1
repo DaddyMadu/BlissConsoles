@@ -19,8 +19,8 @@ $bcversion = "v1.8"
 RequireAdmin
 cls
 $host.ui.RawUI.WindowTitle = "BlissConsoles installer $bcversion"
-cmd /c 'title [BlissConsoles installer $bcversion]'
-Write-Host 'Welcome to BlissConsoles $bcversion installer';
+cmd /c 'title [BlissConsoles installer]'
+Write-Host 'Welcome to BlissConsoles installer' $bcversion;
 $errpref = $ErrorActionPreference #save actual preference
 $ErrorActionPreference = "silentlycontinue"
 Set-ExecutionPolicy RemoteSigned -Force -ErrorAction SilentlyContinue >$null
