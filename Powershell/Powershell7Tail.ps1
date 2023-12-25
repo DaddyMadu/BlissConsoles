@@ -41,6 +41,6 @@ Write-Host '                      """"          """"""""""" ' -ForegroundColor R
 Write-Host ' '
 Write-Host ' '
   Write-Host -ForegroundColor Green -NoNewline $nfcleanicon "$($executionContext.SessionState.Path.CurrentLocation) ".replace($HOME, '~');
-  Write-Host -ForegroundColor Red -NoNewline " $nfcleanicon2"
+  Write-Host -ForegroundColor Red -NoNewline "$nfcleanicon2"
   return " ";
 }
