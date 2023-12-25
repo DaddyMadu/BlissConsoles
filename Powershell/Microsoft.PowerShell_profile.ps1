@@ -37,7 +37,7 @@ function sha1   { Get-FileHash -Algorithm SHA1 $args }
 function sha256 { Get-FileHash -Algorithm SHA256 $args }
 
 # Quick shortcut to start notepad
-function n      { notepad++ $args }
+function n      { nano $args }
 
 # Drive shortcuts
 function HKLM:  { Set-Location HKLM: }
@@ -116,11 +116,11 @@ function Edit-Profile
 {
     if ($host.Name -match "ise")
     {
-        $psISE.CurrentPowerShellTab.Files.Add($profile.CurrentUserAllHosts)
+        $psISE.CurrentPowerShellTab.Files.Add($profile)
     }
     else
     {
-        notepad $profile.CurrentUserAllHosts
+        nano $profile
     }
 }
 
