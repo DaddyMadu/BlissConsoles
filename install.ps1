@@ -15,11 +15,12 @@ Start-Process Powershell -Argumentlist '-ExecutionPolicy RemoteSigned -NoProfile
 Exit
     }
 }
+$bcversion = v1.8
 RequireAdmin
 cls
-$host.ui.RawUI.WindowTitle = "BlissConsoles installer"
-cmd /c 'title [BlissConsoles installer]'
-Write-Host 'Welcome to BlissConsoles installer';
+$host.ui.RawUI.WindowTitle = "BlissConsoles installer $bcversion"
+cmd /c 'title [BlissConsoles installer $bcversion]'
+Write-Host 'Welcome to BlissConsoles $bcversion installer';
 $errpref = $ErrorActionPreference #save actual preference
 $ErrorActionPreference = "silentlycontinue"
 Set-ExecutionPolicy RemoteSigned -Force -ErrorAction SilentlyContinue >$null
@@ -236,7 +237,7 @@ Function Finished {
       		Set-ItemProperty -Path "HKCU:\Console" -Name "WindowAlpha" -Type DWord -Value 0x000000e8 -Force -ErrorAction SilentlyContinue
 		
  		$ErrorActionPreference = $errpref #restore previous preference
-   	Write-host "BlissConsoles v1.7 installed successfully!, Please restart your terminal to get a Blissed Console ;)"
+   	Write-host "BlissConsoles $bcversion installed successfully!, Please restart your terminal to get a Blissed Console ;)"
       	pause
 }
 
