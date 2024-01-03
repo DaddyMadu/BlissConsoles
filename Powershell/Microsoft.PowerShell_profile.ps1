@@ -44,6 +44,12 @@ function HKLM:  { Set-Location HKLM: }
 function HKCU:  { Set-Location HKCU: }
 function Env:   { Set-Location Env: }
 
+# Creates drive shortcut for Work Folders, if current user account is using it
+if (Test-Path "$env:USERPROFILE\Work Folders") {
+    New-PSDrive -Name Work -PSProvider FileSystem -Root "$env:USERPROFILE\Work Folders" -Description "Work Folders"
+    function Work: { Set-Location Work: }
+}
+
 # Set up command prompt and window title. Use UNIX-style convention for identifying 
 # whether user is elevated (root) or not. Window title shows current version of PowerShell
 # and appends [ADMIN] if appropriate for easy taskbar identification
@@ -162,6 +168,16 @@ $EDITOR='notepad++'
 }
 Set-Alias -Name nano -Value $EDITOR
 function ll { Get-ChildItem -Path $pwd -File }
+function g { Set-Location $HOME\Documents\Github }
+function gcom {
+    git add .
+    git commit -m "$args"
+}
+function lazyg {
+    git add .
+    git commit -m "$args"
+    git push
+}
 Function update-bliss {
  $CurrentUser = New-Object Security.Principal.WindowsPrincipal $([Security.Principal.WindowsIdentity]::GetCurrent())
   if($CurrentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator))
