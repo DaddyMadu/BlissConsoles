@@ -19,6 +19,7 @@ $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administ
 $env:DOCUMENTS = [Environment]::GetFolderPath([Environment+SpecialFolder]::MyDocuments)
 $env:DESKTOP = [Environment]::GetFolderPath([Environment+SpecialFolder]::Desktop)
 $env:TEMP = [Environment]::GetEnvironmentVariable("Temp", [EnvironmentVariableTarget]::User)
+$env:DOWNLOADS = (New-Object -ComObject Shell.Application).NameSpace('shell:Downloads').Self.Path
 $wingetskipupdate = ($env:DOCUMENTS + '\wingetskipupdate.txt')
 $extraprofile = ($env:DOCUMENTS + '\ExtraProfile.ps1')
 #creating folder in temp for windows optimzer script & vpn
