@@ -46,8 +46,8 @@ function HKCU:  { Set-Location HKCU: }
 function Env:   { Set-Location Env: }
 
 # Creates drive shortcut for Work Folders, if current user account is using it
-if (Test-Path "$env:USERPROFILE\Work Folders") {
-    New-PSDrive -Name Work -PSProvider FileSystem -Root "$env:USERPROFILE\Work Folders" -Description "Work Folders" >$null
+if (Test-Path "$env:DOCUMENTS\Work Folders") {
+    New-PSDrive -Name Work -PSProvider FileSystem -Root "$env:DOCUMENTS\Work Folders" -Description "Work Folders" >$null
     function Work: { Set-Location Work: }
 }
 
