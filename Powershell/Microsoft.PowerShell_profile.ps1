@@ -184,7 +184,7 @@ Function update-bliss {
   if($CurrentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator))
   {
        Write-host "Script is running with Administrator privileges!, installing BlissConsoles..."
-       irm "https://github.com/DaddyMadu/BlissConsoles/raw/main/install.ps1" | iex
+       Invoke-RestMethod "https://github.com/DaddyMadu/BlissConsoles/raw/main/install.ps1" | Invoke-Expression
   }
   else
     {
@@ -215,7 +215,7 @@ Function enable-terminalupdate {
  Remove-Item -Path ($env:LOCALAPPDATA + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\donotupdate.txt') -Force -ErrorAction SilentlyContinue >$null
 }
 Function get-ipinfo {
- $InfoFromJSON = Invoke-WebRequest -URI https://ifconfig.co/json | Select -expand Content | ConvertFrom-Json
+ $InfoFromJSON = Invoke-WebRequest -URI https://ifconfig.co/json | Select-Object -expand Content | ConvertFrom-Json
  $FilteredJSON = $InfoFromJSON | Select-Object * -ExcludeProperty  ip_decimal,country_iso,country_eu,region_code,region_name,latitude,longitude,asn,user_agent
 $FilteredJSON.asn_org |
     ForEach-Object{
@@ -255,7 +255,7 @@ function winget-update-all-except-skippedlist {
 if (!(Test-Path -Path $wingetskipupdate -PathType Leaf)) {
  New-Item -Path $wingetskipupdate -Force >$null
 } else {
-(Get-Content -path $wingetskipupdate) | ? {$_.trim() -ne "" } | set-content $wingetskipupdate
+(Get-Content -path $wingetskipupdate) | Where-Object {$_.trim() -ne "" } | set-content $wingetskipupdate
 }
 # add id to skip the update
 $skipUpdate = @(Get-Content $wingetskipupdate)
@@ -377,7 +377,7 @@ Remove-Item "$env:USERPROFILE\cookies\*" -recurse -Force 2>$null
 Remove-Item "$env:USERPROFILE\recent\*" -recurse -Force 2>$null
 Remove-Item "$env:USERPROFILE\Local Settings\Temporary Internet Files\*" -recurse -Force 2>$null
 Remove-Item "$env:SYSTEMROOT\Temp\*" -recurse -Force 2>$null
-Get-ChildItem -Path "$env:temp" -Exclude "dmtmp" | foreach ($_) {
+Get-ChildItem -Path "$env:temp" -Exclude "dmtmp" | ForEach-Object ($_) {
        "CLEANING :" + $_.fullname
        Remove-Item $_.fullname -Force -Recurse
        "CLEANED... :" + $_.fullname
@@ -435,7 +435,7 @@ function grep($regex, $dir) {
 }
 function touch {
          $file = $args[0]
-    if($file -eq $null) {
+    if($null -eq $file) {
         throw "No filename supplied"
     }
 
@@ -468,9 +468,9 @@ function pgrep($name) {
 }
 function gotodir($dir) {
 if ((get-item $dir -erroraction silentlycontinue ) -is [system.io.directoryinfo]) {
-cd $dir
+Set-Location $dir
 } else {
-cd (split-path -path $dir)
+Set-Location (split-path -path $dir)
 }
 }
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"

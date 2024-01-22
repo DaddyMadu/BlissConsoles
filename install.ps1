@@ -1,4 +1,4 @@
-cls
+Clear-Host
 #check administrator privilage
 Function RequireAdmin {
 	#Get current user context
@@ -15,9 +15,9 @@ Start-Process Powershell -Argumentlist '-ExecutionPolicy RemoteSigned -NoProfile
 Exit
     }
 }
-$bcversion = "v1.8"
+$bcversion = "v1.9"
 RequireAdmin
-cls
+Clear-Host
 $host.ui.RawUI.WindowTitle = "BlissConsoles installer $bcversion"
 cmd /c 'title [BlissConsoles installer]'
 Write-Host 'Welcome to BlissConsoles installer' $bcversion;
@@ -50,7 +50,7 @@ Function CreateRestorePoint {
 #setting up pre installation apps required for the rest to be functional
 Function preinstallation {
 	Write-Output "Getting things ready, installing chocolatey, winget, clink ...etc"
-	Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+	Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 	choco install chocolatey-core.extension -y
  	choco install choco-cleaner -y
   if ((Get-PackageProvider -Name "NuGet" -Force).version -lt "2.8.5.208") {
@@ -214,7 +214,7 @@ Function Finished {
     Write-host "Customizing powershell 5,7,cmd,conhost consoles color and font..."
     		$errpref = $ErrorActionPreference #save actual preference
 		$ErrorActionPreference = "silentlycontinue"
-    Get-ChildItem -Path "HKCU:\Console" -Exclude "%%Startup*" | ForEach {
+    Get-ChildItem -Path "HKCU:\Console" -Exclude "%%Startup*" | ForEach-Object {
     		Set-ItemProperty -Path $_.PsPath -Name "ColorTable05" -Type DWord -Value 0x00332c27 -Force -ErrorAction SilentlyContinue
       		Set-ItemProperty -Path $_.PsPath -Name "ColorTable06" -Type DWord -Value 0x00e4dfdb -Force -ErrorAction SilentlyContinue
 		Set-ItemProperty -Path $_.PsPath -Name "ColorTable15" -Type DWord -Value 0x00e4dfd2 -Force -ErrorAction SilentlyContinue
@@ -253,9 +253,9 @@ If ($args -And $args[0].ToLower() -eq "-preset") {
 If ($args) {
 	$installationsteps = $args
 	If ($preset) {
-		$installationsteps = Get-Content $preset -ErrorAction Stop | ForEach { $_.Trim() } | Where { $_ -ne "" -and $_[0] -ne "#" }
+		$installationsteps = Get-Content $preset -ErrorAction Stop | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne "" -and $_[0] -ne "#" }
 	}
 }
 
 # Call the desired tweak functions
-$installationsteps | ForEach { Invoke-Expression $_ }
+$installationsteps | ForEach-Object { Invoke-Expression $_ }

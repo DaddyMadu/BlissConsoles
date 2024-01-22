@@ -23,7 +23,7 @@ function prompt {
   }
   $ohmyposhluncher = & ([ScriptBlock]::Create((oh-my-posh init powershell --config "$env:POSH_THEMES_PATH\kushal.omp.json" --print) -join "`n")); Import-Module Terminal-Icons
   $global:ompjob = Start-Job {$ohmyposhluncher};
-  Write-Host 'BC v1.8 Loading `$profile in Background...' -ForegroundColor "Blue";
+  Write-Host 'BC v1.9 Loading `$profile in Background...' -ForegroundColor "Blue";
     Write-Host '            _________________' -ForegroundColor "Red";
 Write-Host '         < Welcome' $Env:UserName'!! >' -ForegroundColor "Green";
 Write-Host '            -----------------' -ForegroundColor "Red";
