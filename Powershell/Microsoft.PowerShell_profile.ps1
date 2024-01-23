@@ -12,9 +12,9 @@ if (!(Test-Path -Path ($env:TEMP + '\dmtmp'))) {
                 New-Item -Path ($env:TEMP + '\dmtmp') -ItemType "directory" >$null
                 }
 #adding blissconsoles check for update 
-$bcRversion = (Get-ItemProperty "HKCU:\SOFTWARE\BlissConsoles").version
-$SetBCVersion = "`$bcversion = $bcRversion"
 $UpdateBC = {
+        $bcRversion = (Get-ItemProperty "HKCU:\SOFTWARE\BlissConsoles").version
+        $SetBCVersion = "`$bcversion = $bcRversion"
         $CheckBCLiveVersion = Invoke-WebRequest -URI 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/install.ps1' | Select-Object -Expand Content
         $BCLiveVersion = $CheckBCLiveVersion -split '\r?\n' | Select-Object -Skip 17 | Select-Object -First 1
         if ($BCLiveVersion -eq $SetBCVersion) {
