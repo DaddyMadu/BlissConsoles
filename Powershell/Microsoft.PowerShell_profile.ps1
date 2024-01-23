@@ -16,7 +16,7 @@ $UpdateBC = {
         $BCversion = (Get-ItemProperty "HKCU:\SOFTWARE\BlissConsoles").version
         $BCLiveVersion = Invoke-WebRequest -URI 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/version' | Select-Object -Expand Content
         if ($BCLiveVersion -eq $BCversion) {
-            Write-Host "BlissConsoles $BCversion is up to date"
+            Write-Host "BlissConsoles $BCversion"
         } else {
             Write-Host "BlissConsoles $BCLiveVersion update avalible, current is $BCversion use update-bliss to update"
         }
