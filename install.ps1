@@ -15,7 +15,7 @@ Start-Process Powershell -Argumentlist '-ExecutionPolicy RemoteSigned -NoProfile
 Exit
     }
 }
-$bcversion = 'v2.0'
+$bcversion = 'v2.1'
 New-Item -Path "HKCU:\SOFTWARE\BlissConsoles" >$null -ErrorAction SilentlyContinue | Out-Null
 Set-ItemProperty -Path "HKCU:\SOFTWARE\BlissConsoles" -Name "version" -Type String -Value "'$bcversion'" -force >$null
 RequireAdmin

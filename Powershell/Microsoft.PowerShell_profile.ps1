@@ -17,7 +17,7 @@ $SetBCVersion = "`$bcversion = $bcRversion"
 $UpdateBC = {
         $CheckBCLiveVersion = Invoke-WebRequest -URI 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/install.ps1' | Select-Object -Expand Content
         $BCLiveVersion = $CheckBCLiveVersion -split '\r?\n' | Select-Object -Skip 17 | Select-Object -First 1
-        if ($BCLiveVersion -eq ('$bcversion = ' + "'$bcversion'")) {
+        if ($BCLiveVersion -eq $SetBCVersion) {
             Write-Host "BlissConsoles is uptodate $bcversion"
         } else {
             Write-Host "BlissConsoles update avalible $BCLiveVersion use update-bliss to update."
