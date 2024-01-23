@@ -18,7 +18,7 @@ $UpdateBC = {
         if ($BCLiveVersion -eq $BCversion) {
             Write-Host "BlissConsoles $BCversion"
         } else {
-            Write-Host "BlissConsoles $BCLiveVersion update avalible, current is $BCversion use update-bliss to update"
+            Write-Host "BlissConsoles $BCLiveVersion update available, current is $BCversion use update-bliss to update"
         }
     }
         $InitializationBCScript = $executioncontext.invokecommand.NewScriptBlock("$UpdateBC")
