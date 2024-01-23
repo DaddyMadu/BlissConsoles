@@ -1,18 +1,3 @@
-### PowerShell template profile 
-### Version 1.03 - Tim Sneath <tim@sneath.org>
-### From https://gist.github.com/timsneath/19867b12eee7fd5af2ba
-###
-### This file should be stored in $PROFILE.CurrentUserAllHosts
-### If $PROFILE.CurrentUserAllHosts doesn't exist, you can make one with the following:
-###    PS> New-Item $PROFILE.CurrentUserAllHosts -ItemType File -Force
-### This will create the file and the containing subdirectory if it doesn't already 
-###
-### As a reminder, to enable unsigned script execution of local scripts on client Windows, 
-### you need to run this line (or similar) from an elevated PowerShell prompt:
-###   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
-### This is the default policy on Windows Server 2012 R2 and above for server Windows. For 
-### more information about execution policies, run Get-Help about_Execution_Policies.
-	# Find out if the current user identity is elevated (has admin rights)
 $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = New-Object Security.Principal.WindowsPrincipal $identity
 $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
@@ -26,6 +11,24 @@ $extraprofile = ($env:DOCUMENTS + '\ExtraProfile.ps1')
 if (!(Test-Path -Path ($env:TEMP + '\dmtmp'))) {
                 New-Item -Path ($env:TEMP + '\dmtmp') -ItemType "directory" >$null
                 }
+$UpdateBC = {
+    $bcversion = 'v2.0'
+        $CheckBCLiveVersion = Invoke-WebRequest -URI 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/install.ps1' | Select-Object -Expand Content
+        $BCLiveVersion = $CheckBCLiveVersion -split '\r?\n' | Select-Object -Skip 17 | Select-Object -First 1
+        if ($BCLiveVersion -eq ('$bcversion = ' + "'$bcversion'")) {
+            Write-Host "BlissConsoles is uptodate $bcversion"
+        } else {
+            Write-Host "BlissConsoles update avalible $BCLiveVersion use update-bliss to update."
+        }
+    }
+       $InitializationBCScript = $executioncontext.invokecommand.NewScriptBlock("$UpdateBC")
+       $JobBCSplat = @{
+           Name = "Check for BC update"
+           InitializationScript = $InitializationBCScript
+       }
+       Start-Job @JobBCSplat -ScriptBlock {
+        Param($Value)
+        } | Out-Null
 # If so and the current host is a command line, then change to red color 
 # as warning to user that they are operating in an elevated context
 # Useful shortcuts for traversing directories
