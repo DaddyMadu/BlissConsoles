@@ -11,8 +11,10 @@ $extraprofile = ($env:DOCUMENTS + '\ExtraProfile.ps1')
 if (!(Test-Path -Path ($env:TEMP + '\dmtmp'))) {
                 New-Item -Path ($env:TEMP + '\dmtmp') -ItemType "directory" >$null
                 }
+#adding blissconsoles check for update 
+$bcRversion = (Get-ItemProperty "HKCU:\SOFTWARE\BlissConsoles").version
+$SetBCVersion = "`$bcversion = $bcRversion"
 $UpdateBC = {
-    $bcversion = 'v2.0'
         $CheckBCLiveVersion = Invoke-WebRequest -URI 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/install.ps1' | Select-Object -Expand Content
         $BCLiveVersion = $CheckBCLiveVersion -split '\r?\n' | Select-Object -Skip 17 | Select-Object -First 1
         if ($BCLiveVersion -eq ('$bcversion = ' + "'$bcversion'")) {
@@ -21,14 +23,18 @@ $UpdateBC = {
             Write-Host "BlissConsoles update avalible $BCLiveVersion use update-bliss to update."
         }
     }
-       $InitializationBCScript = $executioncontext.invokecommand.NewScriptBlock("$UpdateBC")
-       $JobBCSplat = @{
-           Name = "Check for BC update"
-           InitializationScript = $InitializationBCScript
+        $InitializationBCScript = $executioncontext.invokecommand.NewScriptBlock("$UpdateBC")
+        $JobBCSplat = @{
+        Name = "Check for BC update"
+        InitializationScript = $InitializationBCScript
        }
        Start-Job @JobBCSplat -ScriptBlock {
         Param($Value)
         } | Out-Null
+#Loading extra profile
+if (Test-Path -Path $extraprofile -PathType Leaf) {
+    . $extraprofile
+    }
 # If so and the current host is a command line, then change to red color 
 # as warning to user that they are operating in an elevated context
 # Useful shortcuts for traversing directories
@@ -487,9 +493,5 @@ Function enable-extraprofile {
 	} else {
 		Write-output "File already exist, please use: n `$extraprofile to edit it."
 	}
-}
-
-if (Test-Path -Path $extraprofile -PathType Leaf) {
-. $extraprofile
 }
 Import-Module PSReadLine;
