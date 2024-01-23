@@ -13,14 +13,12 @@ if (!(Test-Path -Path ($env:TEMP + '\dmtmp'))) {
                 }
 #adding blissconsoles check for update 
 $UpdateBC = {
-        $bcRversion = (Get-ItemProperty "HKCU:\SOFTWARE\BlissConsoles").version
-        $SetBCVersion = "`$bcversion = $bcRversion"
-        $CheckBCLiveVersion = Invoke-WebRequest -URI 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/install.ps1' | Select-Object -Expand Content
-        $BCLiveVersion = $CheckBCLiveVersion -split '\r?\n' | Select-Object -Skip 17 | Select-Object -First 1
-        if ($BCLiveVersion -eq $SetBCVersion) {
-            Write-Host "BlissConsoles is uptodate $bcRversion"
+        $BCversion = (Get-ItemProperty "HKCU:\SOFTWARE\BlissConsoles").version
+        $BCLiveVersion = Invoke-WebRequest -URI 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/version' | Select-Object -Expand Content
+        if ($BCLiveVersion -eq $BCversion) {
+            Write-Host "BlissConsoles $BCversion is up to date"
         } else {
-            Write-Host "BlissConsoles update avalible $BCLiveVersion use update-bliss to update"
+            Write-Host "BlissConsoles $BCLiveVersion update avalible, current is $BCversion use update-bliss to update"
         }
     }
         $InitializationBCScript = $executioncontext.invokecommand.NewScriptBlock("$UpdateBC")
