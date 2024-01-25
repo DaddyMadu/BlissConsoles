@@ -28,7 +28,7 @@ $UpdateBC = {
        }
        Start-Job @JobBCSplat -ScriptBlock {
         Param($Value)
-        } | Out-Null
+        } | Out-Null | Receive-Job -Wait -AutoRemove
 #Loading extra profile
 if (Test-Path -Path $extraprofile -PathType Leaf) {
     . $extraprofile
