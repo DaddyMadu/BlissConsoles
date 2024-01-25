@@ -23,12 +23,12 @@ $UpdateBC = {
     }
         $InitializationBCScript = $executioncontext.invokecommand.NewScriptBlock("$UpdateBC")
         $JobBCSplat = @{
-        Name = "Check for BC update"
+        Name = "CheckFBCUpdate"
         InitializationScript = $InitializationBCScript
        }
        Start-Job @JobBCSplat -ScriptBlock {
         Param($Value)
-        } | Out-Null | Receive-Job -Wait -AutoRemove
+        } | Out-Null
 #Loading extra profile
 if (Test-Path -Path $extraprofile -PathType Leaf) {
     . $extraprofile
@@ -492,4 +492,6 @@ Function enable-extraprofile {
 		Write-output "File already exist, please use: n `$extraprofile to edit it."
 	}
 }
+Receive-Job 'CheckFBCUpdate' -Wait -AutoRemoveJob -ErrorAction SilentlyContinue >$null | Out-Null;
+Receive-Job 'CheckFEPUpdate' -Wait -AutoRemoveJob -ErrorAction SilentlyContinue >$null | Out-Null;
 Import-Module PSReadLine;
