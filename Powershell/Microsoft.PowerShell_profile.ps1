@@ -13,7 +13,7 @@ if (!(Test-Path -Path ($env:TEMP + '\dmtmp'))) {
                 }
 #adding blissconsoles check for update 
 $UpdateBC = 
-    If ((Test-Connection -TargetName www.google.com -Count 2).PingSucceeded) {
+    If ((Test-Connection www.google.com -Count 1).PingSucceeded) {
         $BCversion = (Get-ItemProperty "HKCU:\SOFTWARE\BlissConsoles").version
         $BCLiveVersion = Invoke-WebRequest -URI 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/version' | Select-Object -Expand Content
         if ($BCLiveVersion -eq $BCversion) {
