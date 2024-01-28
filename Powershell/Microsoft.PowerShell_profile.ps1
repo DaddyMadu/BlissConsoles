@@ -12,7 +12,7 @@ if (!(Test-Path -Path ($env:TEMP + '\dmtmp'))) {
                 New-Item -Path ($env:TEMP + '\dmtmp') -ItemType "directory" >$null
                 }
 #adding blissconsoles check for update 
-$UpdateBC = 
+$UpdateBC = {
     If (Test-Connection www.google.com -Count 1 -Quiet) {
         $BCversion = (Get-ItemProperty "HKCU:\SOFTWARE\BlissConsoles").version
         $BCLiveVersion = Invoke-WebRequest -URI 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/version' | Select-Object -Expand Content
@@ -24,6 +24,7 @@ $UpdateBC =
     } else {
         $BCversion = (Get-ItemProperty "HKCU:\SOFTWARE\BlissConsoles").version
         Write-Host "BlissConsoles $BCversion"
+        }
     }
         $InitializationBCScript = $executioncontext.invokecommand.NewScriptBlock("$UpdateBC")
         $JobBCSplat = @{
