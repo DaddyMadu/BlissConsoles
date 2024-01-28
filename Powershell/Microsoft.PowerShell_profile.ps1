@@ -7,8 +7,6 @@ $env:TEMP = [Environment]::GetEnvironmentVariable("Temp", [EnvironmentVariableTa
 $env:DOWNLOADS = (New-Object -ComObject Shell.Application).NameSpace('shell:Downloads').Self.Path
 $wingetskipupdate = ($env:DOCUMENTS + '\wingetskipupdate.txt')
 $extraprofile = ($env:DOCUMENTS + '\ExtraProfile.ps1')
-$BCversion = (Get-ItemProperty "HKCU:\SOFTWARE\BlissConsoles").version
-Write-Host "BlissConsoles $BCversion"
 #creating folder in temp for windows optimzer script & vpn
 if (!(Test-Path -Path ($env:TEMP + '\dmtmp'))) {
                 New-Item -Path ($env:TEMP + '\dmtmp') -ItemType "directory" >$null
@@ -18,6 +16,7 @@ $UpdateBC = {
         $BCversion = (Get-ItemProperty "HKCU:\SOFTWARE\BlissConsoles").version
         $BCLiveVersion = Invoke-WebRequest -URI 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/version' | Select-Object -Expand Content
         if ($BCLiveVersion -eq $BCversion) {
+            Write-Host "BlissConsoles $BCversion"
         } else {
             Write-Host "BlissConsoles $BCLiveVersion update available, current is $BCversion use update-bliss to update"
         }
