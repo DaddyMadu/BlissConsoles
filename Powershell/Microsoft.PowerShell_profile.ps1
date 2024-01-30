@@ -22,7 +22,6 @@ $UpdateBC = {
             Write-Host "BlissConsoles $BCLiveVersion update available, current is $BCversion use update-bliss to update"
         }
     } else {
-        $BCversion = (Get-ItemProperty "HKCU:\SOFTWARE\BlissConsoles").version
         Write-Host "BlissConsoles $BCversion"
         }
     }
