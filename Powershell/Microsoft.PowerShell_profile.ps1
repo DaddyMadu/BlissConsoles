@@ -496,5 +496,4 @@ Function enable-extraprofile {
 		Write-output "File already exist, please use: n `$extraprofile to edit it."
 	}
 }
-Receive-Job 'CheckFBCUpdate','CheckFEPUpdate' -Wait -AutoRemoveJob -ErrorAction SilentlyContinue >$null | Out-Null;
 Import-Module PSReadLine;
