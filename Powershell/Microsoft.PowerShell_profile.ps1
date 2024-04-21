@@ -17,12 +17,12 @@ $UpdateBC = {
     If (Test-Connection www.google.com -Count 1 -Quiet) {
         $BCLiveVersion = Invoke-WebRequest -URI 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/version' | Select-Object -Expand Content
         if ($BCLiveVersion -eq $BCversion) {
-            Write-Host "BlissConsoles $BCversion"
+            $Host.UI.RawUI.WindowTitle += " [BC $BCversion]"
         } else {
             Write-Host "BlissConsoles $BCLiveVersion update available, current is $BCversion use update-bliss to update"
         }
     } else {
-        Write-Host "BlissConsoles $BCversion"
+		$Host.UI.RawUI.WindowTitle += " [BC $BCversion]"
         }
     }
         $InitializationBCScript = $executioncontext.invokecommand.NewScriptBlock("$UpdateBC")
