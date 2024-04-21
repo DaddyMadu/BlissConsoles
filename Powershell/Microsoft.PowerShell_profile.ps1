@@ -7,6 +7,7 @@ $env:TEMP = [Environment]::GetEnvironmentVariable("Temp", [EnvironmentVariableTa
 $env:DOWNLOADS = (New-Object -ComObject Shell.Application).NameSpace('shell:Downloads').Self.Path
 $wingetskipupdate = ($env:DOCUMENTS + '\wingetskipupdate.txt')
 $extraprofile = ($env:DOCUMENTS + '\ExtraProfile.ps1')
+$BCversion = (Get-ItemProperty "HKCU:\SOFTWARE\BlissConsoles").version
 #creating folder in temp for windows optimzer script & vpn
 if (!(Test-Path -Path ($env:TEMP + '\dmtmp'))) {
                 New-Item -Path ($env:TEMP + '\dmtmp') -ItemType "directory" >$null
@@ -17,12 +18,10 @@ $UpdateBC = {
     If (Test-Connection www.google.com -Count 1 -Quiet) {
         $BCLiveVersion = Invoke-WebRequest -URI 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/version' | Select-Object -Expand Content
         if ($BCLiveVersion -eq $BCversion) {
-            $Host.UI.RawUI.WindowTitle += " [BC $BCversion]"
         } else {
             Write-Host "BlissConsoles $BCLiveVersion update available, current is $BCversion use update-bliss to update"
         }
     } else {
-		$Host.UI.RawUI.WindowTitle += " [BC $BCversion]"
         }
     }
         $InitializationBCScript = $executioncontext.invokecommand.NewScriptBlock("$UpdateBC")
@@ -35,6 +34,7 @@ $UpdateBC = {
         } | Out-Null
 #Loading extra profile
 if (Test-Path -Path $extraprofile -PathType Leaf) {
+    $ExtraProfileCurrentVersion = (Get-ItemProperty "HKCU:\SOFTWARE\BlissConsoles").epversion
     . $extraprofile
     }
 # If so and the current host is a command line, then change to red color 
@@ -80,7 +80,9 @@ function prompt
 $Host.UI.RawUI.WindowTitle = "PowerShell {0}" -f $PSVersionTable.PSVersion.ToString()
 if ($isAdmin)
 {
-    $Host.UI.RawUI.WindowTitle += " [ADMIN]"
+    $Host.UI.RawUI.WindowTitle += " [ADMIN][BC $BCversion][EP $ExtraProfileCurrentVersion]"
+} else {
+    $Host.UI.RawUI.WindowTitle += " [BC $BCversion][EP $ExtraProfileCurrentVersion]"
 }
 
 # Does the the rough equivalent of dir /s /b. For example, dirs *.png is dir /s /b *.png
