@@ -8,6 +8,7 @@ Function RequireAdmin {
   if($CurrentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator))
   {
        Write-host "Script is running with Administrator privileges!, installing BlissConsoles..."
+       [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
   }
   else
     {
