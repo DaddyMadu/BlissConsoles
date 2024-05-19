@@ -15,13 +15,13 @@ if (!(Test-Path -Path ($env:TEMP + '\dmtmp'))) {
 #adding blissconsoles check for update 
 $UpdateBC = {
     $BCversion = (Get-ItemProperty "HKCU:\SOFTWARE\BlissConsoles").version
-    If ((Get-NetConnectionProfile).IPv4Connectivity -contains "Internet" -or (Get-NetConnectionProfile).IPv6Connectivity -contains "Internet") {
+    If ((Get-NetConnectionProfile).IPv4Connectivity -contains "NoTraffic" -or (Get-NetConnectionProfile).IPv6Connectivity -contains "NoTraffic") {
+    } else {
         $BCLiveVersion = Invoke-WebRequest -URI 'https://raw.githubusercontent.com/DaddyMadu/BlissConsoles/main/version' | Select-Object -Expand Content
         if ($BCLiveVersion -eq $BCversion) {
         } else {
             Write-Host "BlissConsoles $BCLiveVersion update available, current is $BCversion use update-bliss to update"
         }
-    } else {
         }
     }
         $InitializationBCScript = $executioncontext.invokecommand.NewScriptBlock("$UpdateBC")
